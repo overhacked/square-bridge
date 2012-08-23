@@ -1,7 +1,32 @@
 Goals:
 	- Card transactions into 'Square' merchant account
 	- Cash transactions into 'Market Till' cash account
+	- Sales Receipts credited to 'Sales' account(s) per Square Item Category
 	- Nightly journals from 'Square' merchant account to checking bank account
 	- Fees debited from 'Square' merchant account and credited to 'Square Fees' expense account
 		At time of nightly journal OR for every card transaction? Whichever is easier to implement.
-	
+File I/O:
+	Input:
+		- transactions.csv - from squareup.com
+			Pertinent information = Date, Time, Payment Type, Transaction ID (PRIMARY KEY), Total, Fee
+			Mappings =
+				Payment Type -> QB Payment Type
+				Transaction ID -> QB Memo
+				Fee -> Transaction from 'Square' account to 'Square' vendor against 'Square Fees' expense account
+		- items.csv - from squareup.com
+			Pertinent information = Transaction ID (PRIMARY KEY), Category Name, Item Name, Price, Discount (per item???), Tax
+			Mappings =
+				Category Name -> QB Class (Group into multiple Sales Receipts)
+				Item Name -> QB Non-inventory part item
+				Discount -> QB Discount item
+				Tax -> QB Sales tax item
+	Output:
+		- card-sales.iif
+			Sales Receipt transactions in 'Square' merchant account, credit to 'Sales' account(s) per Square Item Category
+		- cash-sales.iif
+			Sales Receipt transactions in 'Market Till' cash account, credit to 'Sales' account(s) per Square Item Category
+		- transfers.iif
+			Nightly payments from 'Square' merchant account to checking bank account
+		- fees.iif
+			Transactions per Sales Receipt (or per Transfer?) from 'Square' account to 'Square' vendor against 'Square Fees' expense account
+		- Can these be consolidated into a single file?
