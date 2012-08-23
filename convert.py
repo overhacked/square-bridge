@@ -17,7 +17,7 @@ def main():
 
 
     # This is the name of the QuickBooks checking account
-    account = "BofA Credit Card"
+    account = "Square"
 
     # This is the IIF template
 
@@ -27,7 +27,7 @@ def main():
 
     output_file.write(head)
 
-    template = "TRNS		CREDIT CARD	%s	BofA Credit Card			-%s		%s		N	N	%s																			N			CCARD\r\n"\
+    template = "TRNS		CREDIT CARD	%s	Square			-%s		%s		N	N	%s																			N			CCARD\r\n"\
                + "SPL		CREDIT CARD	%s	Ask My Accountant			%s				0	%s							0.00					0.00					EXP\r\n"\
     + "ENDTRNS\r\n"
 
