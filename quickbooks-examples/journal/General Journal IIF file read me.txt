@@ -1,0 +1,24 @@
+		THE INCLUDED IIF FILE IS BEST VIEWED IN MICROSOFT EXCEL
+
+This IIF file is designed to allow you to import a General Journal into a new QuickBooks 
+data file.  At the top of the file you will see the account information needed if the 
+accounts are not already set up.  Next will be the class if applicable, followed by customer,
+vendor, and other names.  These are needed in order for the lists to be set up properly.  By
+default an unspecified item will import as a service item.  A customer name attached to the 
+spl line of a General Journal transaction will import to the vendor list and the vendor name
+attached to the trns line of a General Journal transaction will import to the other names 
+list unless the names are already on the correct lists.  By specifying them first in the 
+file we set them up on the correct list so the transaction cannot get it wrong.  If the 
+accounts, classes, customers, vendors, and/or other names are already set up, then you can 
+remove that part of the file.
+
+The bottom part of the file, from !trns to endtrns, is the set up for the actual General 
+Journal transaction. 
+
+An IIF file has a header line that explains to QuickBooks what information it is going to 
+be seeing next.  All header lines begin with an exclamation point.  This file contains the 
+header lines needed to import to the chart of accounts, class list, customer list, vendor 
+list, other names list and a General Journal transaction.  Some columns may not have 
+anything in them and that is fine, however, the headers and columns need to be there for 
+QuickBooks to be able to import it correctly.  Just leave them blank if you do not have 
+anything that goes in that field.

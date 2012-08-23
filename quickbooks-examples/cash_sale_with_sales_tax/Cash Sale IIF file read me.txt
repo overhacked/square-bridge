@@ -1,0 +1,19 @@
+		THE INCLUDED IIF FILE IS BEST VIEWED IN MICROSOFT EXCEL
+
+This IIF file is designed to allow you to import a Cash Sale into a new QuickBooks data 
+file.  At the top of the file you will see the account information needed if the accounts 
+are not already set up.  Next will be the items then class if applicable, followed by 
+customer.  These are needed in order for the lists to be set up properly.  By default an 
+unspecified item will import as a service item.  By specifying them first in the file we 
+set them up on the correct list so the transaction cannot get it wrong.  If the accounts, 
+items, and/or customers are already set up, then you can remove that part of the file.
+
+The bottom part of the file, from !trns to endtrns, is the set up for the actual Cash Sale
+transaction. 
+
+An IIF file has a header line that explains to QuickBooks what information it is going to 
+be seeing next.  All header lines begin with an exclamation point.  This file contains the 
+header lines needed to import to the chart of accounts, item list, class list, customer list,
+and a Cash Sale transaction.  Some columns may not have anything in them and that is fine, 
+however, the headers and columns need to be there for QuickBooks to be able to import it 
+correctly.  Just leave them blank if you do not have anything that goes in that field.
