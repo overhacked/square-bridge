@@ -1,0 +1,7 @@
+Goals:
+	- Card transactions into 'Square' merchant account
+	- Cash transactions into 'Market Till' cash account
+	- Nightly journals from 'Square' merchant account to checking bank account
+	- Fees debited from 'Square' merchant account and credited to 'Square Fees' expense account
+		At time of nightly journal OR for every card transaction? Whichever is easier to implement.
+	
