@@ -2,10 +2,45 @@
 
 import os
 import sys, traceback, re
+import csv
+from decimal import *
 
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
+class SquareTransactions(object):
+    """Interprets squareup.com CSV export files"""
+    def __init__(self, fh):
+        super(SquareCSVReader, self).__init__()
+        self.fh = fh
+        self.reader = csv.DictReader(self.fh, dialect='excel')
+        
+    def __iter__(self):
+        return SquareCSVIterator(self)
+        
+    def dumpAll(self):
+        try:
+            for row in self.reader:
+                print row
+        except csv.Error, e:
+            sys.exit('file %s, line %d: %s' % (self.fh.name, self.reader.line_num, e))
 
+class SquareCSVIterator(object):
+    def __init__(self, transactions):
+        self.trans = transactions
+    def __iter__(self):
+        return self
+    def next(self):
+        row = self.trans.reader.next()
+        for k, v in row.iteritems()
+            if v[0] == '$':
+                row[k] = Decimal(v[1:])
+            if k == 'Date':
+                pass
+            if k == 'Time':
+                pass
+        return row
+                
+        
 def error(trans):
     sys.stderr.write("%s\n" % trans)
     traceback.print_exc(None, sys.stderr)
@@ -13,6 +48,11 @@ def error(trans):
 
 def main():
     input_file = open(os.path.join(PROJECT_ROOT, 'input.csv'), 'r')
+    square = SquareCSVReader(input_file)
+    square.dumpAll()
+    sys.exit()
+    # DEBUG - go no further
+    
     output_file = open(os.path.join(PROJECT_ROOT, 'output.iif'), 'w')
 
 
