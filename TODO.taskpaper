@@ -7,6 +7,16 @@ Goals:
 		At time of nightly journal OR for every card transaction? Whichever is easier to implement.
 File I/O:
 	Input:
+		- square-qb.cfg - provided by user
+			Sales tax enabled in QuickBooks
+			Category Name -> QB Class mapping (OPTIONAL)
+			Sales income account (default)
+			Category Name -> QB Sales income accounts mapping (OPTIONAL)
+			Item Name -> QB Non-inventory part item name (OPTIONAL)
+			Square merchant account (card sales & fees)
+			Market Till cash account (cash sales)
+			Bank account associated with square (nightly deposits)
+			Square Fees expense account
 		- transactions.csv - from squareup.com
 			Pertinent information = Date, Time, Payment Type, Transaction ID (PRIMARY KEY), Total, Fee
 			Mappings =
@@ -20,13 +30,34 @@ File I/O:
 				Item Name -> QB Non-inventory part item
 				Discount -> QB Discount item
 				Tax -> QB Sales tax item
+		- deposits.csv - from squareup.com (OPTIONAL)
+			Pertinent information = Date, Time, Amount
 	Output:
 		- card-sales.iif
 			Sales Receipt transactions in 'Square' merchant account, credit to 'Sales' account(s) per Square Item Category
 		- cash-sales.iif
 			Sales Receipt transactions in 'Market Till' cash account, credit to 'Sales' account(s) per Square Item Category
-		- transfers.iif
+		- deposits.iif (OPTIONAL: depends on deposits.csv)
 			Nightly payments from 'Square' merchant account to checking bank account
 		- fees.iif
 			Transactions per Sales Receipt (or per Transfer?) from 'Square' account to 'Square' vendor against 'Square Fees' expense account
 		- Can these be consolidated into a single file?
+Implementation:
+	Reading:
+		- Read configuration file using ConfigParser
+		- Read items.csv into dict of lists of dicts: use Transaction ID as key, list of items, tuple of item values using numeric constants to access (e.g. I_PRICE = 7)
+		- Read transactions.csv into list of tuples: tuple of transaction values using numeric constants to access (e.g. T_ID = 15)
+		- OPTIONAL: Read deposits.csv into list of tuples: tuple of deposit values using numeric constants to access
+	Assumptions:
+		- transactions.csv comes from squareup.com already sorted by date and time
+		- every transaction in transactions.csv has at least one item
+	Writing:
+		- Iterate over transactions list
+			- Load associated items from items dict using items[T_ID]; if no items, throw exception
+			- Card or cash?
+				Card:
+				- Write fee amount to fees.iif
+				- Write transaction and items to card-sales.iif
+				Cash:
+				- Write transaction and items to cash-sales.iif
+		- IF deposits exists, iterate over deposits list, and write to deposits.iif
