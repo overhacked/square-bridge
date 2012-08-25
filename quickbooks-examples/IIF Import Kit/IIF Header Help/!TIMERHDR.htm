@@ -1,0 +1,108 @@
+<!--<?xml version="1.0" encoding="us-ascii"?>-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="HelpItemID" content="H_IIF_TIMER_COLUMN" />
+<meta name="HelpItemType" content="TopicWithoutTutorial" />
+<meta name="SKU_Condition" content="Pro_Premier_Enterprise_verts" />
+<meta name="P4Location" content="$Id: //Quickbooks/KonaR3/Source/Help/ContentPackage/Core/IIF/iif_reference_timer.html#1 $" />
+<meta name="OmitFromSearchResult" content="true" />
+
+<meta name="qbchm" content="admin_n.chm" />
+<meta name="qbcategory" content="import files^IIF" />
+<link rel="StyleSheet" href="/Shared/StyleSheet/qbw.css" type="text/css" />
+<link rel="StyleSheet" href="IntuitHelpResource://ContentPackage/Shared/Stylesheet/qbw.css" type="text/css" />
+<title>Timer data (IIF reference)</title>
+
+
+<script language="javascript" src="IntuitHelpResource://ContentPackage/Shared/JavaScript/qb_2008.js" type="text/javascript"></script>
+</head>
+<body onload="if(window.doStartup){doStartup()}">
+<div id="help_header">
+<h1>Header for Timer data (TIMERHDR)</h1>
+</div>
+<div id="help_content">
+
+
+<p>Data you export from or import to the QuickBooks Timer always begins
+with a header block. The keyword for the header is TIMERHDR. The header block
+can be followed by either activity data (TIMEACT) you are importing from the
+Timer, or list data (CUST, EMP, INVITEM, VEND, OTHERNAME, and CLASS) you are
+importing to the Timer.</p>
+<h2>Column headings</h2>
+<p>The following table shows the column headings that appear in the header:</p>
+<table class="stripes" align="center" cellpadding="1" cellspacing='0' width=
+"360">
+<tr valign="top">
+<td width="164">
+<p>VER</p>
+</td>
+<td colspan="2" width="195">
+<p>The version number of the QuickBooks Timer.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="164">
+<p>REL</p>
+</td>
+<td colspan="2" width="195">
+<p>The release number of the QuickBooks Timer.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="164">
+<p>COMPANYNAME</p>
+</td>
+<td colspan="2" width="195">
+<p>The name of your QuickBooks company. Enter the name as it appears in the
+Company Information window in QuickBooks.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="164">
+<p>FROMTIMER</p>
+</td>
+<td colspan="2" width="195">
+<p>Indicates whether you exporting data from the Timer or importing data to the
+Timer. Enter one of these values:</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="164">
+<p>&nbsp;</p>
+</td>
+<td width="24">
+<p>Y</p>
+</td>
+<td width="171">
+<p>If you are importing activity data from the Timer to QuickBooks.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="164">
+<p>&nbsp;</p>
+</td>
+<td width="24">
+<p>N</p>
+</td>
+<td width="171">
+<p>If you are exporting list data from QuickBooks to the Timer.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="164">
+<p>COMPANYCREATETIME</p>
+</td>
+<td colspan="2" width="195">
+<p>A unique number that comes from your QuickBooks company file when you export
+lists to the Timer. The number identifies which company file the lists came
+from. You can see an example of this number by exporting your lists to the
+Timer and opening the .IIF file that QuickBooks creates.</p>
+</td>
+</tr>
+</table>
+<div id="help_feedback_link"></div>
+</div>
+</body>
+</html>

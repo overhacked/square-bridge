@@ -1,0 +1,161 @@
+<!--<?xml version="1.0" encoding="us-ascii"?>-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="HelpItemID" content="H_IIF_TIMER_ACTIVITY_COLUMN" />
+<meta name="HelpItemType" content="TopicWithoutTutorial" />
+<meta name="SKU_Condition" content="Pro_Premier_Enterprise_verts" />
+<meta name="P4Location" content="$Id: //Quickbooks/KonaR3/Source/Help/ContentPackage/Core/IIF/iif_reference_timeract.html#1 $" />
+<meta name="OmitFromSearchResult" content="true" />
+
+<meta name="qbchm" content="admin_n.chm" />
+<meta name="qbcategory" content="import files^IIF" />
+<link rel="StyleSheet" href="/Shared/StyleSheet/qbw.css" type="text/css" />
+<link rel="StyleSheet" href="IntuitHelpResource://ContentPackage/Shared/Stylesheet/qbw.css" type="text/css" />
+<title>Activities timed with the Timer (IIF reference)</title>
+
+
+<script language="javascript" src="IntuitHelpResource://ContentPackage/Shared/JavaScript/qb_2008.js" type="text/javascript"></script>
+</head>
+<body onload="if(window.doStartup){doStartup()}">
+<div id="help_header">
+<h1>Activities timed with the Timer (TIMEACT)</h1>
+</div>
+<div id="help_content">
+
+
+<p>You can import data about the activities you time with the Timer to
+QuickBooks. The keyword for activity data is TIMEACT. Timer activity data must
+begin with the Timer header block (TIMERHDR).</p>
+<h2>Column headings</h2>
+<p>The following table shows the column headings for activity data:</p>
+<table class="stripes" align="center" cellpadding="1" cellspacing='0' width=
+"360">
+<tr valign="top">
+<td width="120">
+<p>DATE</p>
+</td>
+<td colspan="2" width="240">
+<p>The date the activity was performed. Enter the date in a MM/DD/YY format.
+For example, you would enter June 21, 1997 as 06/21/97.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>JOB</p>
+</td>
+<td colspan="2" width="240">
+<p>The name of the customer (or job) for whom the activity was performed. If
+you&#39;re entering the name of a job, enter the customer&#39;s name followed
+by a colon followed by the name of the job. Both the customer and the job names
+must also be on your Customers &amp; Jobs list (CUST).</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>EMP</p>
+</td>
+<td colspan="2" width="240">
+<p>The name of the employee who performed the activity. The employee&#39;s name
+must also be on your Employee list (EMP).</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>ITEM</p>
+</td>
+<td colspan="2" width="240">
+<p>The name of the service item assigned to the activity (a service item
+indicates the type of work performed). The service item must also be on your
+Item list (INVITEM).</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>PITEM</p>
+</td>
+<td colspan="2" width="240">
+<p>Leave blank. This field is not used in QuickBooks.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>DURATION</p>
+</td>
+<td colspan="2" width="240">
+<p>The duration of the activity in hours and minutes. Enter the duration in an
+HH:MM format. For example, if the activity lasted 4 hours and 15 minutes, you
+would enter <strong>4:15</strong>. The duration cannot be greater than
+23:59.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>PROJ</p>
+</td>
+<td colspan="2" width="240">
+<p>The QuickBooks class assigned to the activity (classes give you a way to
+group activities in meaningful ways in time reports). The Class must also be on
+your Class list (CLASS).</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>NOTE</p>
+</td>
+<td colspan="2" width="240">
+<p>Your notes about the activity. You may enter up to 1000 characters, but the
+characters must be on a single line within the field. To indicate a line break
+in the note, type <strong>/n</strong>.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>BILLINGSTATUS</p>
+</td>
+<td colspan="2" width="240">
+<p>Indicates the billing status of the activity. Enter one of these values:</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>&nbsp;</p>
+</td>
+<td width="36">
+<p>0</p>
+</td>
+<td width="204">
+<p>The activity is not billable to the customer or job specified in the Job
+field. Enter this value if the activity is part of your company overhead.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>&nbsp;</p>
+</td>
+<td width="36">
+<p>1</p>
+</td>
+<td width="204">
+<p>The activity is billable but has not yet been billed to the customer or job
+specified in the Job field.</p>
+</td>
+</tr>
+<tr valign="top">
+<td width="120">
+<p>&nbsp;</p>
+</td>
+<td width="36">
+<p>2</p>
+</td>
+<td width="204">
+<p>The activity has already been billed to the customer or job specified in the
+Job field.</p>
+</td>
+</tr>
+</table>
+<div id="help_feedback_link"></div>
+</div>
+</body>
+</html>

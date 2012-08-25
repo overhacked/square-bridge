@@ -1,0 +1,240 @@
+!HDR	PROD	VER	REL	IIFVER	DATE	TIME	ACCNTNT	ACCNTNTSPLITTIME
+HDR	QuickBooks Enterprise Solutions	Version 17.0D	Release Pw228P	1	2006-08-04	1154717088	N	0
+!ACCNT	NAME	REFNUM	TIMESTAMP	ACCNTTYPE	OBAMOUNT	DESC	ACCNUM	SCD	BANKNUM	EXTRA	HIDDEN	DELCOUNT	USEID
+ACCNT	Checking	55	1154716474	BANK	"10,100.25"			0			N	0	N
+ACCNT	IncomeAcct	71	1154716830	BANK	0.00			0			N	0	N
+ACCNT	Owner's Equity	57	1154716474	BANK	0.00			0			N	0	N
+ACCNT	Owner's Equity:Owner's Contribution	58	1154716475	BANK	"-10,000.00"			0			N	0	N
+ACCNT	Repairs	59	1154716475	BANK	0.00			0			N	0	N
+ACCNT	Repairs:Computer Repairs	60	1154716475	BANK	-35.00			0			N	0	N
+ACCNT	Savings	61	1154716475	BANK	500.00			0			N	0	N
+ACCNT	Accounts Receivable	69	1154716768	AR	-160.00		1200	0			N	0	N
+ACCNT	Employee Advances	6	1154716354	OCASSET	0.00	"Small, short-term payroll advances to employees"	12800	0			N	0	N
+ACCNT	Undeposited Funds	70	1154716768	OCASSET	510.00		1499	0		UNDEPOSIT	N	0	N
+ACCNT	Accumulated Depreciation	11	1154716354	FIXASSET	0.00	"Accumulated depreciation on equipment, buildings and improvements"	17000	0			N	0	N
+ACCNT	Buildings and Improvements	8	1154716354	FIXASSET	0.00	"Buildings, permanently attached fixtures, and improvements on company-owned (or leased) land"	15200	0			N	0	N
+ACCNT	Furniture and Equipment	7	1154716354	FIXASSET	0.00	Furniture and equipment with useful life exceeding one year	15000	0			N	0	N
+ACCNT	Leasehold Improvements	9	1154716354	FIXASSET	0.00	Improvements to leased building space	15900	0			N	0	N
+ACCNT	Vehicles	10	1154716354	FIXASSET	0.00	"Business automobiles and trucks, registered in the name of the business"	16400	0			N	0	N
+ACCNT	Accounts Payable	68	1154716742	AP	516.75		2000	0			N	0	N
+ACCNT	Credit Card	63	1154716617	CCARD	-542.00			0			N	0	N
+ACCNT	Payroll Liabilities	2	1154716344	OCLIAB	0.00		2100	0			N	0	N
+ACCNT	Sales Tax Payable	67	1154716617	OCLIAB	-0.25		2200	0		SALESTAX	N	0	N
+ACCNT	Opening Bal Equity	5	1154716354	EQUITY	0.00		3000	0		OPENBAL	N	0	N
+ACCNT	Retained Earnings	4	1154716347	EQUITY	0.00	Undistributed earnings of the business	32000	0		RETEARNINGS	N	0	N
+ACCNT	Accounting Services Income	12	1154716354	INC	0.00	"Sales of accounting services including compilations, reviews, and audits"	41000	0			N	0	N
+ACCNT	Bookkeeping Services Income	13	1154716354	INC	0.00	Sales of bookkeeping services	41600	0			N	0	N
+ACCNT	Consulting Income	14	1154716354	INC	0.00	Sales of consulting services	42700	0			N	0	N
+ACCNT	Income Account	64	1154716617	INC	-80.00			0			N	0	N
+ACCNT	Payroll Services Income	15	1154716354	INC	0.00	Sales of payroll services performed in-house or by subcontractors	46800	0			N	0	N
+ACCNT	Tax Preparation Services Income	16	1154716354	INC	0.00	Tax preparation services	49400	0			N	0	N
+ACCNT	Contracted Services	17	1154716354	COGS	0.00	Direct labor costs for contract (non-employees) performing services for clients	50500	0			N	0	N
+ACCNT	Merchant Account Fees	18	1154716354	COGS	0.00	"Credit card merchant account discount fees, transaction fees, and related costs"	51800	0			N	0	N
+ACCNT	Outsourced Service Providers	19	1154716354	COGS	0.00	Costs for client services performed by outside companies such as ASPs and other service providers	52100	0			N	0	N
+ACCNT	Advertising and Promotion	20	1154716354	EXP	0.00	"Advertising, marketing, graphic design, and other promotional expenses"	60000	0			N	0	N
+ACCNT	Automobile Expense	21	1154716354	EXP	0.00	"Fuel, oil, repairs, and other automobile maintenance for business autos"	60200	0			N	0	N
+ACCNT	Bank Service Charges	22	1154716354	EXP	0.00	"Bank account service fees, bad check charges and other bank fees"	60400	0			N	0	N
+ACCNT	Business Licenses and Permits	23	1154716354	EXP	0.00	"Business licenses, permits, and other business-related fees"	61000	0			N	0	N
+ACCNT	Charitable Contributions	24	1154716354	EXP	0.00	Contributions to qualifying charitable organizations	61400	0			N	0	N
+ACCNT	Computer and Internet Expenses	25	1154716354	EXP	0.00	"Computer supplies, off-the-shelf software, online fees, and other computer or internet related expenses"	61700	0			N	0	N
+ACCNT	Continuing Education	26	1154716354	EXP	0.00	"Seminars, educational expenses and employee development, not including travel"	62000	0			N	0	N
+ACCNT	Depreciation Expense	27	1154716354	EXP	0.00	"Depreciation on equipment, buildings and improvements"	62400	0			N	0	N
+ACCNT	Dues and Subscriptions	28	1154716354	EXP	0.00	"Subscriptions and membership dues for civic, service, professional, trade organizations"	62500	0			N	0	N
+ACCNT	Equipment Rental	29	1154716354	EXP	0.00	Rent paid for rented equipment used for business	62600	0			N	0	N
+ACCNT	Expense Account	56	1154716474	EXP	-869.00			0			N	0	N
+ACCNT	Insurance Expense	30	1154716354	EXP	0.00	Insurance expenses	63300	0			N	0	N
+ACCNT	Insurance Expense:Insurance-General Liability Ins	31	1154716354	EXP	0.00	General liability insurance premiums	63310	0			N	0	N
+ACCNT	Insurance Expense:Insurance-Health Insurance	32	1154716354	EXP	0.00	Employee health insurance premiums	63320	0			N	0	N
+ACCNT	Insurance Expense:Insurance-Life and Disability I	33	1154716354	EXP	0.00	Employee life and disability insurance premiums	63330	0			N	0	N
+ACCNT	Insurance Expense:Insurance-Professional Liabilit	34	1154716354	EXP	0.00	Professional liability (errors and omissions) insurance	63350	0			N	0	N
+ACCNT	Insurance Expense:Insurance-Worker's Compensation	35	1154716354	EXP	0.00	Worker's compensation insurance premiums	63360	0			N	0	N
+ACCNT	Interest Expense	36	1154716354	EXP	0.00	"Interest payments on business loans, credit card balances, or other business debt"	63400	0			N	0	N
+ACCNT	Janitorial Expense	37	1154716354	EXP	0.00	Janitorial expenses and cleaning supplies	63500	0			N	0	N
+ACCNT	Meals and Entertainment	38	1154716354	EXP	0.00	"Business meals and entertainment expenses, including travel-related meals (may have limited deductibility)"	64300	0			N	0	N
+ACCNT	Miscellaneous Expense	39	1154716354	EXP	0.00	Miscellaneous expenses not categorized elsewhere. Use memo field to describe business purpose	64700	0			N	0	N
+ACCNT	Office Supplies	40	1154716354	EXP	0.00	Office supplies expense	64900	0			N	0	N
+ACCNT	Payroll Expenses	1	1154716344	EXP	0.00		6560	0			N	0	N
+ACCNT	Postage and Delivery	41	1154716354	EXP	0.00	"Postage, courier, and pickup and delivery services"	66500	0			N	0	N
+ACCNT	Printing and Reproduction	42	1154716354	EXP	0.00	"Printing, copies, and other reproduction expenses"	66600	0			N	0	N
+ACCNT	Professional Fees	43	1154716355	EXP	0.00	Payments to attorneys and other professionals for services rendered	66700	0			N	0	N
+ACCNT	Rent Expense	44	1154716355	EXP	0.00	Rent paid for company offices or other structures used in the business	67100	0			N	0	N
+ACCNT	Repairs and Maintenance	45	1154716355	EXP	0.00	Incidental repairs and maintenance of business assets that do not add to the value or appreciably prolong its life	67200	0			N	0	N
+ACCNT	Taxes - Property	46	1154716355	EXP	0.00	"Taxes paid on property owned by the business, franchise taxes, excise taxes, etc."	68000	0			N	0	N
+ACCNT	Telephone Expense	47	1154716355	EXP	0.00	"Telephone and long distance charges, faxing, and other fees Not equipment purchases"	68100	0			N	0	N
+ACCNT	Travel Expense	48	1154716355	EXP	0.00	"Business-related travel expenses including airline tickets, taxi fares, hotel and other travel expenses"	68400	0			N	0	N
+ACCNT	Utilities	49	1154716355	EXP	0.00			0			N	0	N
+ACCNT	Utilities:Water	62	1154716617	EXP	59.25			0			N	0	N
+ACCNT	Finance Charge Income	50	1154716355	EXINC	0.00	Income from finance charges and late fees charged to customers	70000	0			N	0	N
+ACCNT	Insurance Proceeds Received	51	1154716355	EXINC	0.00	Monies received from insurance companies in compensation for casualty losses	70100	0			N	0	N
+ACCNT	Interest Income	52	1154716355	EXINC	0.00	Interest earned on bank accounts and loans	70200	0			N	0	N
+ACCNT	Proceeds from Sale of Assets	53	1154716355	EXINC	0.00	Monies received from sale of fixed assets	70500	0			N	0	N
+ACCNT	Political Contributions	54	1154716355	EXEXP	0.00	Contributions to political candidates and organizations	80500	0			N	0	N
+ACCNT	Estimates	65	1154716617	NONPOSTING	0.00		4	0		ESTIMATE	N	0	N
+ACCNT	Purchase Orders	66	1154716617	NONPOSTING	0.00		2	0		PURCHORDER	N	0	N
+!CUSTITEMDICT	INDEX	LABEL	INUSE
+!ENDCUSTITEMDICT
+CUSTITEMDICT	0		N
+CUSTITEMDICT	1		N
+CUSTITEMDICT	2		N
+CUSTITEMDICT	3		N
+CUSTITEMDICT	4		N
+ENDCUSTITEMDICT
+!INVITEM	NAME	REFNUM	TIMESTAMP	INVITEMTYPE	DESC	PURCHASEDESC	ACCNT	ASSETACCNT	COGSACCNT	QNTY	QNTY	PRICE	COST	TAXABLE	SALESTAXCODE	PAYMETH	TAXVEND	PREFVEND	REORDERPOINT	EXTRA	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5	DEP_TYPE	ISPASSEDTHRU	HIDDEN	DELCOUNT	USEID	ISNEW	PO_NUM	SERIALNUM	WARRANTY	LOCATION	VENDOR	ASSETDESC	SALEDATE	SALEEXPENSE	NOTES	ASSETNUM	COSTBASIS	ACCUMDEPR	UNRECBASIS	PURCHASEDATE
+INVITEM	Item	1	1154716617	SERV								0.00	0.00	N	Non				0							0	N	N	0	N	N								0.00			0.00	0.00	0.00	
+INVITEM	PO Item	2	1154716617	SERV								0.00	0.00	N	Non				0							0	N	N	0	N	N								0.00			0.00	0.00	0.00	
+INVITEM	Sales Item	3	1154716617	SERV			Income Account					5.00	0.00	Y	Tax											0	N	N	0	N	Y								0.00			0.00	0.00	0.00	
+INVITEM	Sales Tax	4	1154716618	COMPTAX			Sales Tax Payable					5.0%	0.00	N			TaxAgencyVendor									0	N	N	0	N	Y								0.00			0.00	0.00	0.00	
+!CLASS	NAME	REFNUM	TIMESTAMP	HIDDEN	DELCOUNT
+CLASS	Class Name	1	1154716618	N	0
+CLASS	Owner	2	1154716618	N	0
+!CTYPE	NAME	REFNUM	TIMESTAMP	HIDDEN
+CTYPE	From advertisement	1	1154716354	N
+CTYPE	Referral	2	1154716354	N
+CTYPE	Retail	3	1154716354	N
+CTYPE	Wholesale	4	1154716354	N
+!CUSTNAMEDICT	INDEX	LABEL	CUSTOMER	VENDOR	EMPLOYEE
+!ENDCUSTNAMEDICT
+CUSTNAMEDICT	0		N	N	N
+CUSTNAMEDICT	1		N	N	N
+CUSTNAMEDICT	2		N	N	N
+CUSTNAMEDICT	3		N	N	N
+CUSTNAMEDICT	4		N	N	N
+CUSTNAMEDICT	5		N	N	N
+CUSTNAMEDICT	6		N	N	N
+CUSTNAMEDICT	7		N	N	N
+CUSTNAMEDICT	8		N	N	N
+CUSTNAMEDICT	9		N	N	N
+CUSTNAMEDICT	10		N	N	N
+CUSTNAMEDICT	11		N	N	N
+CUSTNAMEDICT	12		N	N	N
+CUSTNAMEDICT	13		N	N	N
+CUSTNAMEDICT	14		N	N	N
+ENDCUSTNAMEDICT
+!JOBTYPE	NAME	REFNUM	TIMESTAMP	HIDDEN
+JOBTYPE	Commercial	1	1154716354	N
+JOBTYPE	Residential	2	1154716354	N
+!CUST	NAME	REFNUM	TIMESTAMP	BADDR1	BADDR2	BADDR3	BADDR4	BADDR5	SADDR1	SADDR2	SADDR3	SADDR4	SADDR5	PHONE1	PHONE2	FAXNUM	EMAIL	NOTE	CONT1	CONT2	CTYPE	TERMS	TAXABLE	SALESTAXCODE	LIMIT	RESALENUM	REP	TAXITEM	NOTEPAD	SALUTATION	COMPANYNAME	FIRSTNAME	MIDINIT	LASTNAME	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5	CUSTFLD6	CUSTFLD7	CUSTFLD8	CUSTFLD9	CUSTFLD10	CUSTFLD11	CUSTFLD12	CUSTFLD13	CUSTFLD14	CUSTFLD15	JOBDESC	JOBTYPE	JOBSTATUS	JOBSTART	JOBPROJEND	JOBEND	HIDDEN	DELCOUNT	PRICELEVEL
+CUST	Customer	2	1154716618	Customer																			Y	Tax																												0				N	0	
+!VTYPE	NAME	REFNUM	TIMESTAMP	HIDDEN
+VTYPE	Consultant	1	1154716354	N
+VTYPE	Service Providers	4	1154716354	N
+VTYPE	Suppliers	5	1154716354	N
+VTYPE	Supplies	3	1154716354	N
+VTYPE	Tax agency	2	1154716354	N
+!VEND	NAME	REFNUM	TIMESTAMP	PRINTAS	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	VTYPE	CONT1	CONT2	PHONE1	PHONE2	FAXNUM	EMAIL	NOTE	TAXID	LIMIT	TERMS	NOTEPAD	SALUTATION	COMPANYNAME	FIRSTNAME	MIDINIT	LASTNAME	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5	CUSTFLD6	CUSTFLD7	CUSTFLD8	CUSTFLD9	CUSTFLD10	CUSTFLD11	CUSTFLD12	CUSTFLD13	CUSTFLD14	CUSTFLD15	1099	HIDDEN	DELCOUNT
+VEND	Bayshore Water	3	1154716618																																							N	N	0
+VEND	Kershaw Computer Services	4	1154716618																																							N	N	0
+VEND	TaxAgencyVendor	1	1154716617		TaxAgencyVendor																																					N	N	0
+VEND	Vendor	5	1154716618																																							N	N	0
+!EMP	NAME	REFNUM	TIMESTAMP	INIT	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	CITY	STATE	ZIP	SSNO	PHONE1	PHONE2	EMAIL	NOTE	NOTEPAD	FIRSTNAME	MIDINIT	LASTNAME	SALUTATION	CUSTFLD1	CUSTFLD2	CUSTFLD3	CUSTFLD4	CUSTFLD5	CUSTFLD6	CUSTFLD7	CUSTFLD8	CUSTFLD9	CUSTFLD10	CUSTFLD11	CUSTFLD12	CUSTFLD13	CUSTFLD14	CUSTFLD15	HIDDEN	DELCOUNT
+EMP	7/16/1998	6	1154716793	7	7/16/1998																7/16/1998																	N	0
+!OTHERNAME	NAME	REFNUM	TIMESTAMP	BADDR1	BADDR2	BADDR3	BADDR4	BADDR5	PHONE1	PHONE2	FAXNUM	EMAIL	NOTE	CONT1	CONT2	NOTEPAD	SALUTATION	COMPANYNAME	FIRSTNAME	MIDINIT	LASTNAME	HIDDEN	DELCOUNT
+!SHIPMETH	NAME	REFNUM	TIMESTAMP	HIDDEN
+SHIPMETH	DHL	1	1154716354	N
+SHIPMETH	Federal Express	2	1154716354	N
+SHIPMETH	N	5	1154716793	N
+SHIPMETH	UPS	3	1154716354	N
+SHIPMETH	US Mail	4	1154716354	N
+!PAYMETH	NAME	REFNUM	TIMESTAMP	HIDDEN
+PAYMETH	American Express	3	1154716354	N
+PAYMETH	Cash	1	1154716345	N
+PAYMETH	Check	2	1154716345	N
+PAYMETH	Discover	4	1154716354	N
+PAYMETH	MasterCard	5	1154716354	N
+PAYMETH	Visa	6	1154716354	N
+!INVMEMO	NAME	REFNUM	TIMESTAMP	HIDDEN
+INVMEMO	All work is complete!	3	1154716354	N
+INVMEMO	It's been a pleasure working with you!	4	1154716354	N
+INVMEMO	Please remit to above address.	1	1154716354	N
+INVMEMO	Thank you for your business.	2	1154716354	N
+INVMEMO	We appreciate your prompt payment.	5	1154716354	N
+!TERMS	NAME	REFNUM	TIMESTAMP	DISCPER	STDDUEDAYS	STDDISCDAYS	DAYOFMONTHDUE	DISCDAYOFMONTH	DATEMINDAYS	TERMSTYPE	HIDDEN
+TERMS	1% 10 Net 30	1	1154716354	1.0%	30	10	1	1	0	0	N
+TERMS	2% 10 Net 30	2	1154716354	2.0%	30	10	1	1	0	0	N
+TERMS	7/16/1998	8	1154716793	0.0%	0	0	31	10	5	0	N
+TERMS	Consignment	3	1154716354	0.00	90	0	31	10	5	0	N
+TERMS	Due on receipt	4	1154716354	0.00	0	0	1	1	0	0	N
+TERMS	Net 15	5	1154716354	0.00	15	0	1	1	0	0	N
+TERMS	Net 30	6	1154716354	0.00	30	0	1	1	0	0	N
+TERMS	Net 60	7	1154716354	0.00	60	0	1	1	0	0	N
+!BUD	ACCNT	PERIOD	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	AMOUNT	STARTDATE	CLASS	CUSTOMER
+!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	DUEDATE	TERMS	PAID	PAYMETH	SHIPVIA	SHIPDATE	OTHER1	REP	FOB	PONUM	INVTITLE	INVMEMO	SADDR1	SADDR2	SADDR3	SADDR4	SADDR5	PAYITEM	YEARTODATE	WAGEBASE	EXTRA	TOSEND	ISAJE
+!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	QNTY	PRICE	INVITEM	PAYMETH	TAXABLE	VALADJ	REIMBEXP	SERVICEDATE	OTHER2	OTHER3	PAYITEM	YEARTODATE	WAGEBASE	EXTRA
+!ENDTRNS
+TRNS	70	TRANSFER	1998-07-01	Checking			-500.00	123	Funds Transfer	N	N	N								N																			N	N
+SPL	71	TRANSFER	1998-07-01	Savings			500.00		Funds Transfer	N					N	N	NOTHING							
+ENDTRNS
+TRNS	64	STMT CHG	1998-07-01	Accounts Receivable	Customer		165.00			N	N	N						2006-08-04		N																			N	N
+SPL	65	STMT CHG	1998-07-01	Expense Account			-165.00			N	-3	55.00	Sales Item		N	N	NOTHING	2006-08-04						
+ENDTRNS
+TRNS	67	STMT CHG	1998-07-01	Accounts Receivable	Customer		165.00			N	N	N						2006-08-04		N																			N	N
+SPL	68	STMT CHG	1998-07-01	Expense Account			-165.00			N	-3	55.00	Sales Item		N	N	NOTHING	2006-08-04						
+ENDTRNS
+TRNS	11	CASH SALE	1998-07-16	Undeposited Funds	Customer		10.00	1		N	Y	N	Customer					1998-07-16		N			2006-08-04																N	N
+SPL	12	CASH SALE	1998-07-16	Income Account			-10.00			N		10.00	Sales Item		N	N	NOTHING							
+ENDTRNS
+TRNS	14	CASH SALE	2006-08-02	Checking	Customer		10.25	2		N	Y	Y	Customer					2006-08-02		N			2006-08-02																N	N
+SPL	15	CASH SALE	2006-08-02	Income Account			-5.00			N	-1	5.00	Sales Item		Y	N	NOTHING							
+SPL	16	CASH SALE	2006-08-02	Income Account			-5.00			N		5.00	Sales Item		N	N	NOTHING							
+SPL	17	CASH SALE	2006-08-02	Sales Tax Payable	TaxAgencyVendor		-0.25	2		N		5.0%	Sales Tax		N	N	NOTHING							AUTOSTAX
+ENDTRNS
+TRNS	61	PAYMENT	1998-07-16	Undeposited Funds	Customer		500.00	321		N	N	N						2006-08-04		N																			N	N
+SPL	62	PAYMENT	1998-07-16	Accounts Receivable	Customer		-500.00	321		N					N	N	NOTHING							
+ENDTRNS
+TRNS	58	PURCHORD	2006-07-25	Purchase Orders	Vendor		-10.00	1		N	Y	N						2006-08-04		N			2006-08-04																N	N
+SPL	59	PURCHORD	2006-07-25	Expense Account			10.00			N	1	10.00	PO Item		N	N	NOTHING	2006-08-04						
+ENDTRNS
+TRNS	41	INVOICE	1998-07-16	Accounts Receivable	Customer		20.00	1		N	N	N	N	Customer					7/16/1998	N																			N	N
+SPL	42	INVOICE	1998-07-16	Income Account			-20.00			N	-2	10.00	Sales Item		N	N	NOTHING	2006-08-04						
+ENDTRNS
+TRNS	44	INVOICE	2006-08-02	Accounts Receivable	Customer		10.25	10		N	Y	Y	Customer					2006-08-02		N			2006-08-02																N	N
+SPL	45	INVOICE	2006-08-02	Income Account			-5.00			N	-1	5.00	Sales Item		Y	N	NOTHING							
+SPL	46	INVOICE	2006-08-02	Income Account			-5.00			N		5.00	Sales Item		N	N	NOTHING							
+SPL	47	INVOICE	2006-08-02	Sales Tax Payable	TaxAgencyVendor		-0.25	10		N		5.0%	Sales Tax		N	N	NOTHING							AUTOSTAX
+ENDTRNS
+TRNS	55	GENERAL JOURNAL	1998-07-01	Checking			650.00	1		N	N	N								N																			N	N
+SPL	56	GENERAL JOURNAL	1998-07-01	Expense Account			-650.00			N					N	N	NOTHING							
+ENDTRNS
+TRNS	33	ESTIMATE	2006-07-26	Estimates	Customer		10.00	1		N	N	N	Customer					2006-07-26		N			2006-07-26																N	N
+SPL	34	ESTIMATE	2006-07-26	IncomeAcct			-10.00		Item Description for IIF sample	N		10.00	Item		N	N	NOTHING							
+ENDTRNS
+TRNS	36	ESTIMATE	2006-08-02	Estimates	Customer		10.25	1001		N	N	Y	Customer					2006-08-02		N			2006-08-02																N	N
+SPL	37	ESTIMATE	2006-08-02	Income Account			-5.00			N		5.00	Sales Item		Y	N	NOTHING							
+SPL	38	ESTIMATE	2006-08-02	Income Account			-5.00			N		5.00	Sales Item		N	N	NOTHING							
+SPL	39	ESTIMATE	2006-08-02	Sales Tax Payable	TaxAgencyVendor		-0.25			N		5.0%	Sales Tax		N	N	NOTHING							AUTOSTAX
+ENDTRNS
+TRNS	27	DEPOSIT	1998-07-01	Checking			"10,000.00"		Deposit	N	N	N								N																			N	N
+SPL	28	DEPOSIT	1998-07-01	Owner's Equity:Owner's Contribution	Customer	Owner	"-10,000.00"	1		N					N	N	NOTHING							
+ENDTRNS
+TRNS	30	DEPOSIT	1998-07-16	Checking			50.00		Deposit	N	N	N								N																			N	N
+SPL	31	DEPOSIT	1998-07-16	Income Account	Customer	Class Name	-50.00	236		N					N	N	NOTHING							
+ENDTRNS
+TRNS	19	CREDIT MEMO	1998-07-16	Accounts Receivable	Customer		-10.00	2		N	Y	N	Customer						7/16/1998	N		N			7/16/1998:3:7														N	N
+SPL	20	CREDIT MEMO	1998-07-16	Income Account			10.00		Credit Memo No Tax	N	1	10.00	Sales Item		N	N	NOTHING							
+ENDTRNS
+TRNS	22	CREDIT MEMO	2006-08-02	Accounts Receivable	Customer		-10.25	110		N	Y	Y	Customer					2006-08-02		N			2006-08-02																N	N
+SPL	23	CREDIT MEMO	2006-08-02	Income Account			5.00			N	1	5.00	Sales Item		Y	N	NOTHING							
+SPL	24	CREDIT MEMO	2006-08-02	Income Account			5.00			N	1	5.00	Sales Item		N	N	NOTHING							
+SPL	25	CREDIT MEMO	2006-08-02	Sales Tax Payable	TaxAgencyVendor		0.25	110		N		5.0%	Sales Tax		N	N	NOTHING							AUTOSTAX
+ENDTRNS
+TRNS	5	CREDIT CARD	1998-12-15	Credit Card	Vendor		-542.00		MEMO	N	N	N								N																			N	N
+SPL	6	CREDIT CARD	1998-12-15	Accounts Payable	Vendor		542.00			N					N	N	NOTHING							
+ENDTRNS
+TRNS	73	CHECK	1998-07-16	Checking	Vendor		-110.00			N	N	N					Y	2006-08-04		N																			N	N
+SPL	74	CHECK	1998-07-16	Expense Account			100.00			N	0				N	N	NOTHING							
+SPL	75	CHECK	1998-07-16	Expense Account			10.00			N	0				N	N	NOTHING							
+ENDTRNS
+TRNS	2	BILL	1998-07-16	Accounts Payable	Bayshore Water		-59.25			N	N	N						1998-08-15	Net 30	N																			N	N
+SPL	3	BILL	1998-07-16	Utilities:Water			59.25			N					N	N	NOTHING							
+ENDTRNS
+TRNS	8	BILL REFUND	1998-07-12	Accounts Payable	Kershaw Computer Services		35.00			N	N	N								N																			N	N
+SPL	9	BILL REFUND	1998-07-12	Repairs:Computer Repairs			-35.00			N					N	N	NOTHING							
+ENDTRNS
+TRNS	49	ITEMRECEIPT	1998-07-16	Accounts Payable	Vendor		-0.50		Received Items (bill to follow)	N	N	N						2006-08-04		N																			N	N
+SPL	50	ITEMRECEIPT	1998-07-16	Expense Account	Customer		0.50		Sales Item	N					N	N	NOTHING							
+ENDTRNS
+TRNS	52	ITEMRECEIPT	1998-07-16	Accounts Payable	Vendor		-0.50		Received Items (bill to follow)	N	N	N						2006-08-04		N																			N	N
+SPL	53	ITEMRECEIPT	1998-07-16	Expense Account	Customer		0.50		Sales Item	N					N	N	NOTHING							
+ENDTRNS
+!SALESREP	INITIALS	ASSOCIATEDNAME	NAMETYPE	REFNUM	TIMESTAMP	HIDDEN	DELCOUNT
+SALESREP	7	7/16/1998	3	1	1154716793	N	0

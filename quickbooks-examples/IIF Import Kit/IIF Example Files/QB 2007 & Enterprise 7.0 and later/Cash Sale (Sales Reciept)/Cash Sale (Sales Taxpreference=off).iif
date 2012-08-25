@@ -1,0 +1,11 @@
+!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	DUEDATE	TERMS																					
+!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	QNTY	PRICE	INVITEM	PAYMETH	TAXABLE	VALADJ	REIMBEXP	SERVICEDATE	OTHER2																					
+!ACCNT	NAME	REFNUM	TIMESTAMP	ACCNTTYPE	OBAMOUNT	DESC	ACCNUM	SCD	BANKNUM	EXTRA	HIDDEN	DELCOUNT	USEID	WKPAPERREF																										
+!ENDTRNS																																								
+ACCNT	Accounts Receivable	5	1154536747	AR	10.25		1200	0			N	0	N																											
+ACCNT	Payroll Liabilities	2	1154536596	OCLIAB	0		2100	0			N	0	N																											
+ACCNT	Sales Tax Payable	4	1154536741	OCLIAB	-0.25		2200	0		SALESTAX	N	0	N																											
+ACCNT	Income Account	8	1154536781	INC	-10			0			N	0	N																											
+TRNS	50	CASH SALE	7/16/1998	Undeposited Funds	Customer		10	1		N	Y	N	Customer					7/16/1998		N			7/16/1998						Memo goes here										N	N
+SPL	51	CASH SALE	7/16/1998	Income Account			-10			N		10	Sales Item		N	N	NOTHING																							
+ENDTRNS																																								
