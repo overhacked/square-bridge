@@ -47,14 +47,19 @@ def error(trans):
 
 
 def main():
-    input_file = open(os.path.join(PROJECT_ROOT, 'input.csv'), 'r')
-    square = SquareCSVReader(input_file)
-    square.dumpAll()
-    sys.exit()
-    # DEBUG - go no further
+    transactions_file = open(os.path.join(PROJECT_ROOT, 'transactions.csv'), 'r')
+    transactions = csv.DictReader(transactions_file, dialect='excel')
+    items_file = open(os.path.join(PROJECT_ROOT, 'items.csv'), 'r')
+    items = csv.DictReader(items_file, dialect='excel')
+
+    output_dialect = csv.Dialect()
+    output_dialect.delimeter = "\t"
+    output_dialect.doublequote = False
+    output_dialect.escapechar = '\\'
+    output_dialect.quotechar = '"'
     
     output_file = open(os.path.join(PROJECT_ROOT, 'output.iif'), 'w')
-
+    output = csv.DictWriter(output_file, dialect=output_dialect)
 
     # This is the name of the QuickBooks checking account
     account = "Square"
