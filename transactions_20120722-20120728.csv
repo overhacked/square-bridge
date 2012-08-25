@@ -1,0 +1,71 @@
+Date,Time,Transaction Type,Payment Type,Subtotal,Discount,Sales Tax,Tips,Total,Fee,Net,Payment Method,Card Brand,Card Number,Details,Payment ID,Device Name,Description
+2012-07-28,11:40:02,Payment,Cash,$15.00,$0.00,$0.00,$0.00,$15.00,$0.00,$15.00,,,,https://squareup.com/payment/8E3R3GH0Y3NAE,8E3R3GH0Y3NAE,Illyria,Yarn (Hand-dyed)
+2012-07-28,11:37:57,Payment,Cash,$12.00,$0.00,$0.00,$0.00,$12.00,$0.00,$12.00,,,,https://squareup.com/payment/5G0B1PG72RND5,5G0B1PG72RND5,Illyria,Yarn (Std Brown)
+2012-07-28,11:22:48,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/1FPHEFHQ1VY18,1FPHEFHQ1VY18,Illyria,Ground Lamb
+2012-07-28,11:17:21,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/5NGC33M5T1SD7,5NGC33M5T1SD7,Illyria,Ground Lamb
+2012-07-28,11:09:17,Payment,Cash,$12.00,$0.00,$0.00,$0.00,$12.00,$0.00,$12.00,,,,https://squareup.com/payment/F4XXAXJY2HS40,F4XXAXJY2HS40,Illyria,Garretts Ferry
+2012-07-28,11:02:35,Payment,Cash,$28.00,$0.00,$0.00,$0.00,$28.00,$0.00,$28.00,,,,https://squareup.com/payment/6V6CR0JCT121X,6V6CR0JCT121X,Illyria,"2 x Ricotta, 6oz and Garretts Ferry"
+2012-07-28,10:46:17,Payment,Cash,$12.00,$0.00,$0.00,$0.00,$12.00,$0.00,$12.00,,,,https://squareup.com/payment/E6227BJZQRV9Z,E6227BJZQRV9Z,Illyria,Garretts Ferry
+2012-07-28,10:45:09,Payment,Cash,$12.00,$-1.00,$0.00,$0.00,$11.00,$0.00,$11.00,,,,https://squareup.com/payment/1E4MKM2FRQTAK,1E4MKM2FRQTAK,Illyria,Garretts Ferry
+2012-07-28,10:44:43,Payment,Cash,$12.00,$0.00,$0.00,$0.00,$12.00,$0.00,$12.00,,,,https://squareup.com/payment/FB097FFYFST9W,FB097FFYFST9W,Illyria,Garretts Ferry
+2012-07-28,10:41:25,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/AF0T5HFFRPTPV,AF0T5HFFRPTPV,Illyria,Ground Lamb
+2012-07-28,10:30:19,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/00A14K0QJJ8NB,00A14K0QJJ8NB,Illyria,Ground Lamb
+2012-07-28,10:27:12,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/3D28V9GCPJSZ4,3D28V9GCPJSZ4,Illyria,Ground Lamb
+2012-07-28,10:12:59,Payment,Cash,$12.00,$0.00,$0.00,$0.00,$12.00,$0.00,$12.00,,,,https://squareup.com/payment/D4EWGWKPEMZZG,D4EWGWKPEMZZG,Illyria,Garretts Ferry
+2012-07-28,10:12:23,Payment,Card,$12.00,$0.00,$0.00,$0.00,$12.00,$0.33,$11.67,Card - Swiped,MasterCard,"=""9657""",https://squareup.com/payment/DK81ETQ5PBH9S,DK81ETQ5PBH9S,Illyria,Garretts Ferry
+2012-07-28,10:10:48,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/7VBW5T2TB9R27,7VBW5T2TB9R27,Illyria,"Ricotta, 6oz"
+2012-07-28,10:08:58,Payment,Cash,$16.00,$0.00,$0.00,$0.00,$16.00,$0.00,$16.00,,,,https://squareup.com/payment/BSTJ52JD2TD2Y,BSTJ52JD2TD2Y,Illyria,2 x Ground Lamb
+2012-07-28,10:07:55,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/A32XBQ82A6RJG,A32XBQ82A6RJG,Illyria,"Ricotta, 6oz"
+2012-07-28,10:04:52,Payment,Cash,$16.00,$0.00,$0.00,$0.00,$16.00,$0.00,$16.00,,,,https://squareup.com/payment/A3XZMYTGMXESM,A3XZMYTGMXESM,Illyria,"Ground Lamb and Ricotta, 6oz"
+2012-07-28,10:02:19,Payment,Card,$20.00,$0.00,$0.00,$0.00,$20.00,$0.55,$19.45,Card - Swiped,MasterCard,"=""9657""",https://squareup.com/payment/4J365V87KJ6HD,4J365V87KJ6HD,Illyria,"Ricotta, 6oz and Garretts Ferry"
+2012-07-28,09:38:20,Payment,Cash,$7.00,$-1.00,$0.00,$0.00,$6.00,$0.00,$6.00,,,,https://squareup.com/payment/CYC5NR6CGNNJY,CYC5NR6CGNNJY,Illyria,Dozen Eggs
+2012-07-28,09:36:42,Payment,Card,$7.00,$0.00,$0.00,$0.00,$7.00,$0.19,$6.81,Card - Swiped,AmEx,"=""2000""",https://squareup.com/payment/Y9YFCW70B4FSQ,Y9YFCW70B4FSQ,Illyria,Dozen Eggs
+2012-07-28,09:35:37,Payment,Card,$12.00,$0.00,$0.00,$0.00,$12.00,$0.33,$11.67,Card - Swiped,MasterCard,"=""8413""",https://squareup.com/payment/1BSQ0DDGZDFHF,1BSQ0DDGZDFHF,Illyria,Garretts Ferry
+2012-07-28,09:31:22,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/3EED0ATSJCTSQ,3EED0ATSJCTSQ,Illyria,Dozen Eggs
+2012-07-28,09:30:57,Payment,Cash,$15.00,$0.00,$0.00,$0.00,$15.00,$0.00,$15.00,,,,https://squareup.com/payment/BF95YFKRJF2E5,BF95YFKRJF2E5,Illyria,Dozen Eggs and Ground Lamb
+2012-07-28,09:28:52,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/0H0R6XT2SH34E,0H0R6XT2SH34E,Illyria,100 x Stew Meat
+2012-07-28,09:27:42,Payment,Cash,$18.00,$-1.80,$0.00,$0.00,$16.20,$0.00,$16.20,,,,https://squareup.com/payment/4QK9G2140CX7S,4QK9G2140CX7S,Illyria,"Figs, Ground Lamb, and Blueberries"
+2012-07-28,09:23:50,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/5J63W6BFJWZGE,5J63W6BFJWZGE,Illyria,Dozen Eggs
+2012-07-28,09:21:48,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/AZ5R6GCFPS3V9,AZ5R6GCFPS3V9,Illyria,Ground Lamb
+2012-07-28,09:16:44,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/F8TFHFQ5WZYMJ,F8TFHFQ5WZYMJ,Illyria,Dozen Eggs
+2012-07-28,09:14:53,Payment,Card,$8.00,$0.00,$0.00,$0.00,$8.00,$0.22,$7.78,Card - Swiped,AmEx,"=""2008""",https://squareup.com/payment/EXM22W525PC7K,EXM22W525PC7K,Illyria,Ground Lamb
+2012-07-28,09:14:24,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/647KRA5RK1FZW,647KRA5RK1FZW,Illyria,Dozen Eggs
+2012-07-28,09:13:57,Payment,Cash,$14.00,$0.00,$0.00,$0.00,$14.00,$0.00,$14.00,,,,https://squareup.com/payment/2ZQSYSCMY6SGV,2ZQSYSCMY6SGV,Illyria,2 x Dozen Eggs
+2012-07-28,09:10:43,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/026DRC7Q2T6PK,026DRC7Q2T6PK,Illyria,Dozen Eggs
+2012-07-28,09:07:36,Payment,Cash,$12.00,$0.00,$0.00,$0.00,$12.00,$0.00,$12.00,,,,https://squareup.com/payment/6M4D152BSSHE8,6M4D152BSSHE8,Illyria,Garretts Ferry
+2012-07-28,09:02:01,Payment,Cash,$30.20,$0.00,$0.00,$0.00,$30.20,$0.00,$30.20,,,,https://squareup.com/payment/53GR9WRHYR486,53GR9WRHYR486,Illyria,162 x Shank and 2 x Dozen Eggs
+2012-07-28,08:59:47,Payment,Card,$8.00,$0.00,$0.00,$0.00,$8.00,$0.22,$7.78,Card - Swiped,Visa,"=""5432""",https://squareup.com/payment/3BDCJKJ7MVR55,3BDCJKJ7MVR55,Illyria,Ground Lamb
+2012-07-28,08:58:29,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/2TRCR9Z9FPX2T,2TRCR9Z9FPX2T,Illyria,Dozen Eggs
+2012-07-28,08:57:47,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/7Z6ZD9QFNM2GK,7Z6ZD9QFNM2GK,Illyria,Dozen Eggs
+2012-07-28,08:57:19,Payment,Cash,$5.00,$0.00,$0.00,$0.00,$5.00,$0.00,$5.00,,,,https://squareup.com/payment/8365M4X6R5VNW,8365M4X6R5VNW,Illyria,Blueberries
+2012-07-28,08:56:41,Payment,Cash,$5.00,$0.00,$0.00,$0.00,$5.00,$0.00,$5.00,,,,https://squareup.com/payment/84WGENWCSWX66,84WGENWCSWX66,Illyria,Figs
+2012-07-28,08:55:28,Payment,Card,$15.00,$0.00,$0.00,$0.00,$15.00,$0.41,$14.59,Card - Swiped,AmEx,"=""4029""",https://squareup.com/payment/JB7FS0D237171,JB7FS0D237171,Illyria,"Ricotta, 6oz and Dozen Eggs"
+2012-07-28,08:54:29,Payment,Cash,$12.00,$0.00,$0.00,$0.00,$12.00,$0.00,$12.00,,,,https://squareup.com/payment/2372PH4D11NFW,2372PH4D11NFW,Illyria,Garretts Ferry
+2012-07-28,08:53:46,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/1AB819YWDGXAT,1AB819YWDGXAT,Illyria,Dozen Eggs
+2012-07-28,08:53:12,Payment,Card,$12.00,$0.00,$0.00,$0.00,$12.00,$0.33,$11.67,Card - Swiped,MasterCard,"=""7040""",https://squareup.com/payment/8AR5X35PZMN09,8AR5X35PZMN09,Illyria,Garretts Ferry
+2012-07-28,08:51:19,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/DYVSXYD36V72X,DYVSXYD36V72X,Illyria,Dozen Eggs
+2012-07-28,08:50:49,Payment,Cash,$8.00,$0.00,$0.00,$0.00,$8.00,$0.00,$8.00,,,,https://squareup.com/payment/2HJT9R4HMG1SE,2HJT9R4HMG1SE,Illyria,Ground Lamb
+2012-07-28,08:49:42,Payment,Card,$27.00,$0.00,$0.00,$0.00,$27.00,$0.74,$26.26,Card - Swiped,AmEx,"=""7651""",https://squareup.com/payment/9BTHZZ14SRPPF,9BTHZZ14SRPPF,Illyria,"Ground Lamb, 2 x Dozen Eggs, and Blueberries"
+2012-07-28,08:44:16,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/EX7VX1XBPS1P1,EX7VX1XBPS1P1,Illyria,Dozen Eggs
+2012-07-28,08:43:43,Payment,Cash,$19.40,$-1.94,$0.00,$0.00,$17.46,$0.00,$17.46,,,,https://squareup.com/payment/54CRMJ8B213K9,54CRMJ8B213K9,Illyria,Garretts Ferry and 74 x Shank
+2012-07-28,08:42:25,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/F0XNB0JV13S8D,F0XNB0JV13S8D,Illyria,Dozen Eggs
+2012-07-28,08:42:06,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/75TE6YGRT1CQ5,75TE6YGRT1CQ5,Illyria,Dozen Eggs
+2012-07-28,08:41:37,Payment,Cash,$14.00,$0.00,$0.00,$0.00,$14.00,$0.00,$14.00,,,,https://squareup.com/payment/FY50J7VW9CJD2,FY50J7VW9CJD2,Illyria,2 x Dozen Eggs
+2012-07-28,08:41:03,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/4G3Y1JRXVJV4J,4G3Y1JRXVJV4J,Illyria,Dozen Eggs
+2012-07-28,08:40:28,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/1HGXTWWE9NGKQ,1HGXTWWE9NGKQ,Illyria,Dozen Eggs
+2012-07-28,08:39:51,Payment,Cash,$5.00,$0.00,$0.00,$0.00,$5.00,$0.00,$5.00,,,,https://squareup.com/payment/1S5NFV308BMTE,1S5NFV308BMTE,Illyria,Blueberries
+2012-07-28,08:39:29,Payment,Cash,$12.00,$0.00,$0.00,$0.00,$12.00,$0.00,$12.00,,,,https://squareup.com/payment/6Y5YN69AC37WE,6Y5YN69AC37WE,Illyria,Dozen Eggs and Figs
+2012-07-28,08:36:51,Payment,Cash,$12.00,$0.00,$0.00,$0.00,$12.00,$0.00,$12.00,,,,https://squareup.com/payment/B43F9573PAQF0,B43F9573PAQF0,Illyria,Dozen Eggs and Blueberries
+2012-07-28,08:35:47,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/899SYSHDDE87Y,899SYSHDDE87Y,Illyria,Dozen Eggs
+2012-07-28,08:35:18,Payment,Cash,$22.00,$0.00,$0.00,$0.00,$22.00,$0.00,$22.00,,,,https://squareup.com/payment/70JZR23M9BVT8,70JZR23M9BVT8,Illyria,2 x Dozen Eggs and Ground Lamb
+2012-07-28,08:33:22,Payment,Cash,$32.00,$0.00,$0.00,$0.00,$32.00,$0.00,$32.00,,,,https://squareup.com/payment/0DD079PN24Y0Y,0DD079PN24Y0Y,Illyria,"Dozen Eggs, Garretts Ferry, Blueberries, and Ricotta, 6oz"
+2012-07-28,08:31:10,Payment,Cash,$19.00,$0.00,$0.00,$0.00,$19.00,$0.00,$19.00,,,,https://squareup.com/payment/A9MGVE78AV8YS,A9MGVE78AV8YS,Illyria,Dozen Eggs and Yarn (Std White)
+2012-07-28,08:30:19,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/7W6T9DDQ303YT,7W6T9DDQ303YT,Illyria,Dozen Eggs
+2012-07-28,08:29:46,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/DQZ673SZ74CMJ,DQZ673SZ74CMJ,Illyria,Dozen Eggs
+2012-07-28,08:29:14,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/1Z42CN00PSTNS,1Z42CN00PSTNS,Illyria,Dozen Eggs
+2012-07-28,08:28:52,Payment,Cash,$7.00,$0.00,$0.00,$0.00,$7.00,$0.00,$7.00,,,,https://squareup.com/payment/FSGW6GXTFWGJQ,FSGW6GXTFWGJQ,Illyria,Dozen Eggs
+2012-07-28,08:28:28,Payment,Cash,$14.00,$0.00,$0.00,$0.00,$14.00,$0.00,$14.00,,,,https://squareup.com/payment/0HZA9FW6HSX4S,0HZA9FW6HSX4S,Illyria,2 x Dozen Eggs
+2012-07-28,08:28:09,Payment,Cash,$14.00,$0.00,$0.00,$0.00,$14.00,$0.00,$14.00,,,,https://squareup.com/payment/ACNBF4Q1KP7XS,ACNBF4Q1KP7XS,Illyria,2 x Dozen Eggs
+2012-07-28,08:27:52,Payment,Cash,$14.00,$0.00,$0.00,$0.00,$14.00,$0.00,$14.00,,,,https://squareup.com/payment/A49QCGC6FW5HT,A49QCGC6FW5HT,Illyria,2 x Dozen Eggs
+2012-07-28,08:24:06,Payment,Cash,$7.00,$-1.00,$0.00,$0.00,$6.00,$0.00,$6.00,,,,https://squareup.com/payment/E3KTA9EFSX13V,E3KTA9EFSX13V,Illyria,Dozen Eggs
+2012-07-23,15:56:17,Payment,Card,$8.00,$0.00,$0.00,$0.00,$8.00,$0.22,$7.78,Card - Swiped,Visa,"=""0148""",https://squareup.com/payment/889KBEMAYZ0EB,889KBEMAYZ0EB,Winifred,2lb lamb livers
