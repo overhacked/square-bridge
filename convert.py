@@ -59,33 +59,26 @@ def main():
     output_dialect.quotechar = '"'
     
     output_file = open(os.path.join(PROJECT_ROOT, 'output.iif'), 'w')
-    output = csv.DictWriter(output_file, dialect=output_dialect)
+    #output = csv.DictWriter(output_file, dialect=output_dialect)
 
     # This is the name of the QuickBooks checking account
     account = "Square"
 
     # This is the IIF template
 
-    head = "!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	DUEDATE	TERMS	PAYMETH	SHIPVIA	SHIPDATE	REP	FOB	PONUM	INVMEMO	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	SADDR1	SADDR2	SADDR3	SADDR4	SADDR5	TOSEND	ISAJE	OTHER1	ACCTTYPE	ACCTSPECIAL\r\n"\
-           + "!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	QNTY	PRICE	INVITEM	PAYMETH	TAXABLE	EXTRA	VATCODE	VATRATE	VATAMOUNT	VALADJ	SERVICEDATE	TAXCODE	TAXRATE	TAXAMOUNT	TAXITEM	OTHER2	OTHER3	REIMBEXP	ACCTTYPE	ACCTSPECIAL	ITEMTYPE\r\n"\
+    head = "!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	TOPRINT	NAMEISTAXABLE\r\n"\
+           + "!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	QNTY	PRICE	INVITEM	TAXABLE\r\n"\
     + "!ENDTRNS\r\n"
 
     output_file.write(head)
 
-    template = "TRNS		CREDIT CARD	%s	Square			-%s		%s		N	N	%s																			N			CCARD\r\n"\
-               + "SPL		CREDIT CARD	%s	Ask My Accountant			%s				0	%s							0.00					0.00					EXP\r\n"\
-    + "ENDTRNS\r\n"
+    trans_template = "TRNS		CASH SALE	{month:02d}/{day:02d}/{year:d}	{till_account}	{customer}	{qb_class}	{total:.2f}	{square_id:s}	{cc_digits:s}	N	N\r\n"
+    item_template = "SPL		CASH SALE	{month:02d}/{day:02d}/{year:d}	{sales_account}		{class}	-{total:.2f}			{qty:d}	{price:.2f}	{item_name:s}	N\r\n"
+    trans_footer = "ENDTRNS\r\n"
 
 
     # And here's the part that inserts data into the tempalate
-    for trans in input_file:
-
-        try:
-            list = trans.split(',')
-            assert (len(list) == 3 )
-        except:
-            error(trans)
-            continue
+    for trans in transactions:
 
         try:
             (date, amount, comments) = list

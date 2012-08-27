@@ -1,0 +1,6 @@
+!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	TOPRINT	NAMEISTAXABLE
+!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	QNTY	PRICE	INVITEM	TAXABLE
+!ENDTRNS
+TRNS	$i	CASH SALE	$m/$d/$y	$till_account	$customer	$class	$total	$square_id	$cc_digits	N	N
+SPL	$i	CASH SALE	$m/$d/$y	$sales_account		$class	-$total			$qty	$price	$item_name	N
+ENDTRNS
