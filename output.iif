@@ -1,18 +1,574 @@
-!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	DUEDATE	TERMS	PAYMETH	SHIPVIA	SHIPDATE	REP	FOB	PONUM	INVMEMO	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	SADDR1	SADDR2	SADDR3	SADDR4	SADDR5	TOSEND	ISAJE	OTHER1	ACCTTYPE	ACCTSPECIAL
-!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	QNTY	PRICE	INVITEM	PAYMETH	TAXABLE	EXTRA	VATCODE	VATRATE	VATAMOUNT	VALADJ	SERVICEDATE	TAXCODE	TAXRATE	TAXAMOUNT	TAXITEM	OTHER2	OTHER3	REIMBEXP	ACCTTYPE	ACCTSPECIAL	ITEMTYPE
+!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	TOPRINT	NAMEISTAXABLE
+!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	QNTY	PRICE	INVITEM	TAXABLE
 !ENDTRNS
-TRNS		CREDIT CARD	3/17/11	BofA Credit Card			-5.45		APL*ITUNES 866-712-7753 CA		N	N	3/17/11																			N			CCARD
-SPL		CREDIT CARD	3/17/11	Ask My Accountant			5.45				0	5.45							0.00					0.00					EXP
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	15.00	8E3R3GH0Y3NAE		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-15.00			1	15.00	Yarn (Hand-dyed)	N
 ENDTRNS
-TRNS		CREDIT CARD	3/18/11	BofA Credit Card			-89.7		ALASKA AIR 0272165880138SEATTLE WA		N	N	3/18/11																			N			CCARD
-SPL		CREDIT CARD	3/18/11	Ask My Accountant			89.7				0	89.7							0.00					0.00					EXP
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	5G0B1PG72RND5		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Yarn (Std Brown)	N
 ENDTRNS
-TRNS		CREDIT CARD	3/22/11	BofA Credit Card			-20.0		BART CONCOURSE H S QPS 5104646979 CA		N	N	3/22/11																			N			CCARD
-SPL		CREDIT CARD	3/22/11	Ask My Accountant			20.0				0	20.0							0.00					0.00					EXP
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	1FPHEFHQ1VY18		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
 ENDTRNS
-TRNS		CREDIT CARD	3/23/11	BofA Credit Card			-16.5		SURESH CHANDER SAN FRANCISCOCA		N	N	3/23/11																			N			CCARD
-SPL		CREDIT CARD	3/23/11	Ask My Accountant			16.5				0	16.5							0.00					0.00					EXP
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	5NGC33M5T1SD7		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
 ENDTRNS
-TRNS		CREDIT CARD	3/24/11	BofA Credit Card			-11.2		VTS SAN FRANCISCO LONG ISLAND CNY		N	N	3/24/11																			N			CCARD
-SPL		CREDIT CARD	3/24/11	Ask My Accountant			11.2				0	11.2							0.00					0.00					EXP
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	F4XXAXJY2HS40		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	28.00	6V6CR0JCT121X		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ricotta, 6oz	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ricotta, 6oz	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	E6227BJZQRV9Z		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	11.00	1E4MKM2FRQTAK		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-13.00			1	13.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	FB097FFYFST9W		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	AF0T5HFFRPTPV		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	00A14K0QJJ8NB		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	3D28V9GCPJSZ4		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	D4EWGWKPEMZZG		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	DK81ETQ5PBH9S	9657	N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	7VBW5T2TB9R27		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ricotta, 6oz	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	16.00	BSTJ52JD2TD2Y		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	A32XBQ82A6RJG		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ricotta, 6oz	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	16.00	A3XZMYTGMXESM		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ricotta, 6oz	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	20.00	4J365V87KJ6HD	9657	N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ricotta, 6oz	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	6.00	CYC5NR6CGNNJY		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	Y9YFCW70B4FSQ	2000	N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	1BSQ0DDGZDFHF	8413	N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	3EED0ATSJCTSQ		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	15.00	BF95YFKRJF2E5		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	0H0R6XT2SH34E		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.08			1	0.08	Stew Meat	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	16.20	4QK9G2140CX7S		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-5.50			1	5.50	Figs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.80			1	8.80	Ground Lamb	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-5.50			1	5.50	Blueberries	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	5J63W6BFJWZGE		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	AZ5R6GCFPS3V9		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	F8TFHFQ5WZYMJ		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	EXM22W525PC7K	2008	N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	647KRA5RK1FZW		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	14.00	2ZQSYSCMY6SGV		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	026DRC7Q2T6PK		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	6M4D152BSSHE8		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	30.20	53GR9WRHYR486		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.10			1	0.10	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	3BDCJKJ7MVR55	5432	N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	2TRCR9Z9FPX2T		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	7Z6ZD9QFNM2GK		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	5.00	8365M4X6R5VNW		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-5.00			1	5.00	Blueberries	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	5.00	84WGENWCSWX66		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-5.00			1	5.00	Figs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	15.00	JB7FS0D237171	4029	N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ricotta, 6oz	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	2372PH4D11NFW		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	1AB819YWDGXAT		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	8AR5X35PZMN09	7040	N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	DYVSXYD36V72X		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	8.00	2HJT9R4HMG1SE		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	27.00	9BTHZZ14SRPPF	7651	N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-5.00			1	5.00	Blueberries	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	EX7VX1XBPS1P1		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	17.46	54CRMJ8B213K9		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-13.20			1	13.20	Garretts Ferry	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-0.11			1	0.11	Shank	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	F0XNB0JV13S8D		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	75TE6YGRT1CQ5		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	14.00	FY50J7VW9CJD2		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	4G3Y1JRXVJV4J		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	1HGXTWWE9NGKQ		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	5.00	1S5NFV308BMTE		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-5.00			1	5.00	Blueberries	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	6Y5YN69AC37WE		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-5.00			1	5.00	Figs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	12.00	B43F9573PAQF0		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-5.00			1	5.00	Blueberries	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	899SYSHDDE87Y		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	22.00	70JZR23M9BVT8		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ground Lamb	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	32.00	0DD079PN24Y0Y		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Garretts Ferry	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-5.00			1	5.00	Blueberries	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Ricotta, 6oz	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	19.00	A9MGVE78AV8YS		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-12.00			1	12.00	Yarn (Std White)	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	7W6T9DDQ303YT		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	DQZ673SZ74CMJ		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	1Z42CN00PSTNS		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	7.00	FSGW6GXTFWGJQ		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	14.00	0HZA9FW6HSX4S		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	14.00	ACNBF4Q1KP7XS		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	14.00	A49QCGC6FW5HT		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-7.00			1	7.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/28/2012	Market Till	PRFM Customers	Layers	6.00	E3KTA9EFSX13V		N	N
+SPL		CASH SALE	07/28/2012	Sales		Layers	-8.00			1	8.00	Dozen Eggs	N
+ENDTRNS
+TRNS		CASH SALE	07/23/2012	Market Till	PRFM Customers	Layers	8.00	889KBEMAYZ0EB	0148	N	N
+SPL		CASH SALE	07/23/2012	Sales		Layers	-8.00			1	8.00	Item	N
 ENDTRNS
