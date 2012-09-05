@@ -43,7 +43,7 @@ class SquareReader(object):
                 + "!ENDTRNS\r\n"
     TRANS_TEMPLATE = "TRNS		CASH SALE	{month:02d}/{day:02d}/{year:d}	{till_account}	{customer}	{qb_class}	{total:.2f}	{square_id:s}	{cc_digits:s}	N	N\r\n"
     TRANS_TYPES = {'Subtotal':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net':'REAL',}
-    ITEM_TEMPLATE = "SPL		CASH SALE	{month:02d}/{day:02d}/{year:d}	{sales_account}		{qb_class}	-{total:.2f}			{qty:d}	{price:.2f}	{item_name:s}	N\r\n"
+    ITEM_TEMPLATE = "SPL		CASH SALE	{month:02d}/{day:02d}/{year:d}	{sales_account}		{qb_class}	-{total:.2f}			{qty:.2f}	{price:.2f}	{item_name:s}	N\r\n"
     ITEM_TYPES = {'Price':'REAL','Discount':'REAL','Tax':'REAL',}
     TRANS_FOOTER = "ENDTRNS\r\n"
 
@@ -124,7 +124,7 @@ class SquareReader(object):
 
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
             iCur = self.db.cursor()
-            iCur.execute('SELECT "Category_Name","Item_Name",COUNT(*) AS \'Quantity\',SUM("Price") AS \'Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? GROUP BY "Category_Name","Item_Name";',(payment_id,))
+            iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,))
             for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
                 output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_defaultSalesAccount, qb_class=cfg_defaultClass, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
             output_fh.write(self.TRANS_FOOTER)
