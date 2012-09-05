@@ -9,45 +9,31 @@ PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 class SquareCSVReader(object):
     """Interprets squareup.com CSV export files"""
-    def __init__(self, fh):
-        self.fh = fh
-        self.reader = csv.DictReader(self.fh, dialect='excel')
+
+    def __init__(self, csvfile):
+        self.reader = csv.reader(csvfile, dialect='excel')        
+        self.fieldnames = self.reader.next()
+        self.floatRe = re.compile('[-+]?[0-9]+\.[0-9]+')
         
-    def __iter__(self):
-        return SquareCSVIterator(self)
-        
-    def dumpAll(self):
-        try:
-            for row in self.reader:
-                print row
-        except csv.Error, e:
-            sys.exit('file %s, line %d: %s' % (self.fh.name, self.reader.line_num, e))
-
-class SquareCSVIterator(object):
-    from decimal import Decimal
-
-    def __init__(self, transactions):
-        self.trans = transactions
-        self.floatRe = re.compile('[-+]?[0-9]*\.?[0-9]+')
-
     def __iter__(self):
         return self
 
     def next(self):
-        row = self.trans.reader.next()
-        for k, v in row.iteritems():
-            if v[0] == '$':
-                row[k] = Decimal(v[1:])
-                continue
-            if k == 'Date':
-                continue
-            if k == 'Time':
-                continue
+        row = self.reader.next()
+        newRow = list()
+        for v in row:
+            newValue = v
+
+            if len(v) > 0 and v[0] == '$':
+                newValue = float(v[1:])
+
             floatMatch = self.floatRe.match(v)
             if floatMatch:
-                row[k] = Decimal(floatMatch.group(0))
-                continue
-        return row
+                newValue = float(floatMatch.group(0))
+            
+            newRow.append(newValue)
+
+        return newRow
 
 class SquareReader(object):
     """Interprets squareup.com CSV export files"""
@@ -62,26 +48,24 @@ class SquareReader(object):
     TRANS_FOOTER = "ENDTRNS\r\n"
 
 
-    def __init__(self, transactions_fh, items_fh, deposits_fh=None):
-        self.transactionsFile = transactions_fh
-        self.transactionsReader = csv.reader(self.transactionsFile, dialect='excel')
-        self.transactionsFields = self.transactionsReader.next() 
-        self.itemsFile = items_fh
-        self.itemsReader = csv.reader(self.itemsFile, dialect='excel')
-        self.itemsFields = self.itemsReader.next()
-        if deposits_fh is not None:
-            self.depositsFile = deposits_fh
-            self.depositsReader = csv.DictReader(self.depositsFile, dialect='excel')
-        else:
-            self.depositsFile = None
-            self.depositsReader = None
+    def __init__(self):
+        self.transactionsFile = None
+        self.transactionsReader = None
+        self.itemsFile = None
+        self.itemsReader = None
+        self.depositsFile = None
+        self.depositsReader = None
 
         # Use tempfile databases
         self.db = sqlite3.connect('')
 
+    def importTransactions(self,transactions_fh):
+        self.transactionsFile = transactions_fh
+        self.transactionsReader = SquareCSVReader(self.transactionsFile)
+
         # Create the transactions table
         transactionFieldsSql = []
-        for field in self.transactionsFields:
+        for field in self.transactionsReader.fieldnames:
             if field in self.TRANS_TYPES:
                 fieldType = self.TRANS_TYPES[field]	
             else:
@@ -91,10 +75,19 @@ class SquareReader(object):
 
         createTransactionsSql = 'CREATE TABLE transactions ( %s )' % ','.join(transactionFieldsSql)
         self.db.execute(createTransactionsSql)
+        self.db.commit()
 
+        transactionsInsertSql = 'INSERT INTO transactions VALUES (%s);' % ( ('?, ' * len(self.transactionsReader.fieldnames)).rstrip(', ') )
+        cur = self.db.cursor()
+        cur.executemany(transactionsInsertSql, self.transactionsReader)
+        self.db.commit()
+        
+    def importItems(self,items_fh):
+        self.itemsFile = items_fh
+        self.itemsReader = SquareCSVReader(self.itemsFile)
         # Create the items table
         itemFieldsSql = []
-        for field in self.itemsFields:
+        for field in self.itemsReader.fieldnames:
             if field in self.ITEM_TYPES:
                 fieldType = self.ITEM_TYPES[field]	
             else:
@@ -104,18 +97,12 @@ class SquareReader(object):
 
         createItemsSql = 'CREATE TABLE items ( %s )' % ','.join(itemFieldsSql)
         self.db.execute(createItemsSql)
-
         self.db.commit()
 
-    def importTransactions(self):
-        transactionsInsertSql = 'INSERT INTO transactions VALUES (%s);' % ( ('?, ' * len(self.transactionsFields)).rstrip(', ') )
-        cur = self.db.cursor()
-        cur.executemany(transactionsInsertSql, self.transactionsReader)
-        
-    def importItems(self):
-        itemsInsertSql = 'INSERT INTO items VALUES (%s);' % ( ('?, ' * len(self.itemsFields)).rstrip(', ') )
+        itemsInsertSql = 'INSERT INTO items VALUES (%s);' % ( ('?, ' * len(self.itemsReader.fieldnames)).rstrip(', ') )
         cur = self.db.cursor()
         cur.executemany(itemsInsertSql, self.itemsReader)
+        self.db.commit()
 
     def exportIif(self,output_fh):
         # TODO: implement config file
@@ -132,7 +119,6 @@ class SquareReader(object):
             (year, month, day) = map(int,date.split('-', 2))
             
             cc_digits = card_brand + " " + card_number.translate({ord(u'='):None,ord(u'"'):None})
-            total = float(total.lstrip('$'))
             
             output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=cfg_cashAccount, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=payment_id, cc_digits=cc_digits))
 
@@ -160,29 +146,19 @@ class SquareReader(object):
         except csv.Error, e:
             sys.exit('file %s, line %d: %s' % (self.transactionsFile.name, self.transactionsReader.line_num, e))
 
-def error(trans):
-    sys.stderr.write("%s\n" % trans)
-    traceback.print_exc(None, sys.stderr)
-
-def outputItem(item, quantity, account, qb_class):
-    item_template = "SPL		CASH SALE	{month:02d}/{day:02d}/{year:d}	{sales_account}		{qb_class}	-{total:.2f}			{qty:d}	{price:.2f}	{item_name:s}	N\r\n"
-    item_total = float(item['Price'].lstrip('$')) - float(item['Discount'].lstrip('$')) * quantity
-    output_file.write(item_template.format(month=month, day=day, year=year, sales_account=account, qb_class=qb_class, total=item_total, qty=quantity, price=item_total, item_name=item['Item Name']))
-    print "------ ITEM %d x %r Written ------" % (quantity,item['Item Name'])
-
 def main():
     transactions_file = open(os.path.join(PROJECT_ROOT, 'transactions.csv'), 'r')
     items_file = open(os.path.join(PROJECT_ROOT, 'items.csv'), 'r')
     output_file = open(os.path.join(PROJECT_ROOT, 'output.iif'), 'w')
     
-    square = SquareReader(transactions_file, items_file)
+    square = SquareReader()
 	
     # This is the name of the QuickBooks checking account
     account = "Square"
 
     #DEBUG
-    square.importTransactions()
-    square.importItems()
+    square.importTransactions(transactions_file)
+    square.importItems(items_file)
     square.dumpSql()
     square.exportIif(output_file)
     exit()
