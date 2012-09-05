@@ -95,6 +95,12 @@ class SquareReader(object):
             output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=cfg_cashAccount, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=payment_id, cc_digits=cc_digits))
 
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
+            iCur = self.db.cursor()
+            iCur.execute('SELECT "Category_Name","Item_Name",COUNT(*) AS \'Quantity\',SUM("Price") AS \'Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? GROUP BY "Category_Name","Item_Name";',(payment_id,))
+            for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
+                output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_defaultSalesAccount, qb_class=cfg_defaultClass, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
+            output_fh.write(self.TRANS_FOOTER)
+
         
     def dumpSqliteMaster(self):
         cur = self.db.cursor()
