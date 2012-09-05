@@ -6,10 +6,13 @@ import csv
 import sqlite3
 
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
-output_file = open(os.path.join(PROJECT_ROOT, 'output.iif'), 'w')
 
 class SquareReader(object):
     """Interprets squareup.com CSV export files"""
+    # This is the IIF template
+    IIF_HEAD =  "!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	TOPRINT	NAMEISTAXABLE\r\n"\
+                + "!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	QNTY	PRICE	INVITEM	TAXABLE\r\n"\
+                + "!ENDTRNS\r\n"
     TRANS_TEMPLATE = "TRNS		CASH SALE	{month:02d}/{day:02d}/{year:d}	{till_account}	{customer}	{qb_class}	{total:.2f}	{square_id:s}	{cc_digits:s}	N	N\r\n"
     TRANS_TYPES = {'Subtotal':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net':'REAL',}
     ITEM_TEMPLATE = "SPL		CASH SALE	{month:02d}/{day:02d}/{year:d}	{sales_account}		{qb_class}	-{total:.2f}			{qty:d}	{price:.2f}	{item_name:s}	N\r\n"
@@ -41,7 +44,7 @@ class SquareReader(object):
                 fieldType = self.TRANS_TYPES[field]	
             else:
                 fieldType = 'TEXT'
-            fieldSql = '"%s" %s' % (field, fieldType)
+            fieldSql = '"%s" %s' % (field.replace(' ','_'), fieldType)
             transactionFieldsSql.append(fieldSql)
 
         createTransactionsSql = 'CREATE TABLE transactions ( %s )' % ','.join(transactionFieldsSql)
@@ -54,7 +57,7 @@ class SquareReader(object):
                 fieldType = self.ITEM_TYPES[field]	
             else:
                 fieldType = 'TEXT'
-            fieldSql = '"%s" %s' % (field, fieldType)
+            fieldSql = '"%s" %s' % (field.replace(' ','_'), fieldType)
             itemFieldsSql.append(fieldSql)
 
         createItemsSql = 'CREATE TABLE items ( %s )' % ','.join(itemFieldsSql)
@@ -71,6 +74,27 @@ class SquareReader(object):
         itemsInsertSql = 'INSERT INTO items VALUES (%s);' % ( ('?, ' * len(self.itemsFields)).rstrip(', ') )
         cur = self.db.cursor()
         cur.executemany(itemsInsertSql, self.itemsReader)
+
+    def exportIif(self,output_fh):
+        # TODO: implement config file
+        cfg_cashAccount = 'Market Till'
+        cfg_defaultSalesAccount = 'Sales'
+        cfg_customer = 'PRFM Customers'
+        cfg_defaultClass = 'Layers'
+
+        # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
+        tCur = self.db.cursor()
+        tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Subtotal","Discount","Sales_Tax","Tips","Total","Fee","Net","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
+        output_fh.write(self.IIF_HEAD)
+        for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,payment_method,card_brand,card_number,payment_id in tCur:
+            (year, month, day) = map(int,date.split('-', 2))
+            
+            cc_digits = card_brand + " " + card_number.translate({ord(u'='):None,ord(u'"'):None})
+            total = float(total.lstrip('$'))
+            
+            output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=cfg_cashAccount, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=payment_id, cc_digits=cc_digits))
+
+            # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
         
     def dumpSqliteMaster(self):
         cur = self.db.cursor()
@@ -101,35 +125,19 @@ def outputItem(item, quantity, account, qb_class):
 def main():
     transactions_file = open(os.path.join(PROJECT_ROOT, 'transactions.csv'), 'r')
     items_file = open(os.path.join(PROJECT_ROOT, 'items.csv'), 'r')
+    output_file = open(os.path.join(PROJECT_ROOT, 'output.iif'), 'w')
     
     square = SquareReader(transactions_file, items_file)
 	
     # This is the name of the QuickBooks checking account
     account = "Square"
 
-    # This is the IIF template
-
-    head = "!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	TOPRINT	NAMEISTAXABLE\r\n"\
-           + "!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	QNTY	PRICE	INVITEM	TAXABLE\r\n"\
-    + "!ENDTRNS\r\n"
-
     #DEBUG
     square.importTransactions()
     square.importItems()
     square.dumpSql()
+    square.exportIif(output_file)
     exit()
-
-    output_file.write(head)
-
-    trans_template = "TRNS		CASH SALE	{month:02d}/{day:02d}/{year:d}	{till_account}	{customer}	{qb_class}	{total:.2f}	{square_id:s}	{cc_digits:s}	N	N\r\n"
-    trans_footer = "ENDTRNS\r\n"
-
-
-    # TODO: implement config file
-    cfg_cashAccount = 'Market Till'
-    cfg_defaultSalesAccount = 'Sales'
-    cfg_customer = 'PRFM Customers'
-    cfg_defaultClass = 'Layers'
 
     # And here's the part that inserts data into the tempalate
     item = None
