@@ -38,12 +38,15 @@ class SquareCSVIterator(object):
         for k, v in row.iteritems():
             if v[0] == '$':
                 row[k] = Decimal(v[1:])
+                continue
             if k == 'Date':
-                pass
+                continue
             if k == 'Time':
-                pass
-            if m = self.floatRe.match(v):
-                row[k] = Decimal(m.group(0))
+                continue
+            floatMatch = self.floatRe.match(v)
+            if floatMatch:
+                row[k] = Decimal(floatMatch.group(0))
+                continue
         return row
 
 class SquareReader(object):
