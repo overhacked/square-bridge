@@ -7,6 +7,45 @@ import sqlite3
 
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
+class SquareCSVReader(object):
+    """Interprets squareup.com CSV export files"""
+    def __init__(self, fh):
+        self.fh = fh
+        self.reader = csv.DictReader(self.fh, dialect='excel')
+        
+    def __iter__(self):
+        return SquareCSVIterator(self)
+        
+    def dumpAll(self):
+        try:
+            for row in self.reader:
+                print row
+        except csv.Error, e:
+            sys.exit('file %s, line %d: %s' % (self.fh.name, self.reader.line_num, e))
+
+class SquareCSVIterator(object):
+    from decimal import Decimal
+
+    def __init__(self, transactions):
+        self.trans = transactions
+        self.floatRe = re.compile('[-+]?[0-9]*\.?[0-9]+')
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        row = self.trans.reader.next()
+        for k, v in row.iteritems():
+            if v[0] == '$':
+                row[k] = Decimal(v[1:])
+            if k == 'Date':
+                pass
+            if k == 'Time':
+                pass
+            if m = self.floatRe.match(v):
+                row[k] = Decimal(m.group(0))
+        return row
+
 class SquareReader(object):
     """Interprets squareup.com CSV export files"""
     # This is the IIF template
