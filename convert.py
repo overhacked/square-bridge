@@ -119,10 +119,13 @@ class SquareReader(object):
         tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Subtotal","Discount","Sales_Tax","Tips","Total","Fee","Net","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
         output_fh.write(self.IIF_HEAD)
         for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,payment_method,card_brand,card_number,payment_id in tCur:
+            #TODO: unimplemented sales_tax and tips handling
+            
             (year, month, day) = map(int,date.split('-', 2))
             
             cc_digits = card_brand + " " + card_number.translate({ord(u'='):None,ord(u'"'):None})
             
+            #TODO: implement difference between cash transactions and card transactions
             output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=cfg_cashAccount, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=payment_id, cc_digits=cc_digits))
 
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
@@ -135,7 +138,10 @@ class SquareReader(object):
             if discount < 0:
                 output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_discountAccount, qb_class=cfg_defaultClass, total=-discount, price=-discount, item_name=cfg_discountItemName))
             
+            # END of sales transaction
             output_fh.write(self.TRANS_FOOTER)
+            #TODO: implement fee transaction
+            #TODO: implement deposits, if deposits.csv provided
 
         
     def dumpSqliteMaster(self):
