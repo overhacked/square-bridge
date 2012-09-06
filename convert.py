@@ -26,10 +26,10 @@ class SquareCSVReader(object):
 
             if len(v) > 0 and v[0] == '$':
                 newValue = float(v[1:])
-
-            floatMatch = self.floatRe.match(v)
-            if floatMatch:
-                newValue = float(floatMatch.group(0))
+			else:
+				floatMatch = self.floatRe.match(v)
+				if floatMatch:
+					newValue = float(floatMatch.group(0))
             
             newRow.append(newValue)
 
