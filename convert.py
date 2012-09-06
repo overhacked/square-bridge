@@ -44,6 +44,7 @@ class SquareReader(object):
     TRANS_TEMPLATE = "TRNS		CASH SALE	{month:02d}/{day:02d}/{year:d}	{till_account}	{customer}	{qb_class}	{total:.2f}	{square_id:s}	{cc_digits:s}	N	N\r\n"
     TRANS_TYPES = {'Subtotal':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net':'REAL',}
     ITEM_TEMPLATE = "SPL		CASH SALE	{month:02d}/{day:02d}/{year:d}	{sales_account}		{qb_class}	-{total:.2f}			{qty:.2f}	{price:.2f}	{item_name:s}	N\r\n"
+    DISC_TEMPLATE = "SPL		CASH SALE	{month:02d}/{day:02d}/{year:d}	{sales_account}		{qb_class}	{total:.2f}				{price:.2f}	{item_name:s}	N\r\n"
     ITEM_TYPES = {'Price':'REAL','Discount':'REAL','Tax':'REAL',}
     TRANS_FOOTER = "ENDTRNS\r\n"
 
@@ -108,6 +109,8 @@ class SquareReader(object):
         # TODO: implement config file
         cfg_cashAccount = 'Market Till'
         cfg_defaultSalesAccount = 'Sales'
+        cfg_discountAccount = 'Discount Expenses'
+        cfg_discountItemName = 'Industry Discount'
         cfg_customer = 'PRFM Customers'
         cfg_defaultClass = 'Layers'
 
@@ -127,6 +130,11 @@ class SquareReader(object):
             iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,))
             for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
                 output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_defaultSalesAccount, qb_class=cfg_defaultClass, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
+            
+            # Output one discount line per transaction, if any discount specified
+            if discount < 0:
+                output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_discountAccount, qb_class=cfg_defaultClass, total=-discount, price=-discount, item_name=cfg_discountItemName))
+            
             output_fh.write(self.TRANS_FOOTER)
 
         
