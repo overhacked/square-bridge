@@ -26,7 +26,7 @@ class SquareCSVReader(object):
 
             if len(v) > 0 and v[0] == '$':
                 newValue = float(v[1:])
-			else:
+            else:
 				floatMatch = self.floatRe.match(v)
 				if floatMatch:
 					newValue = float(floatMatch.group(0))
@@ -38,10 +38,10 @@ class SquareCSVReader(object):
 class SquareReader(object):
     """Interprets squareup.com CSV export files"""
     # This is the IIF template
-    IIF_HEAD =  "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tTOPRINT\tNAMEISTAXABLE\r\n"\
+    IIF_HEAD =  "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tTOPRINT\tPAYMETH\tNAMEISTAXABLE\r\n"\
                 + "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tQNTY\tPRICE\tINVITEM\tTAXABLE\r\n"\
                 + "!ENDTRNS\r\n"
-    TRANS_TEMPLATE = "TRNS\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{cc_digits:s}\tN\tN\r\n"
+    TRANS_TEMPLATE = "TRNS\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\tN\r\n"
     TRANS_TYPES = {'Subtotal':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net':'REAL',}
     ITEM_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t-{total:.2f}\t\t\t{qty:.2f}\t{price:.2f}\t{item_name:s}\tN\r\n"
     DISC_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t\t{price:.2f}\t{item_name:s}\tN\r\n"
@@ -108,25 +108,34 @@ class SquareReader(object):
     def exportIif(self,output_fh):
         # TODO: implement config file
         cfg_cashAccount = 'Market Till'
+        cfg_squareAccount = 'Square'
         cfg_defaultSalesAccount = 'Sales'
         cfg_discountAccount = 'Discount Expenses'
         cfg_discountItemName = 'Industry Discount'
         cfg_customer = 'PRFM Customers'
         cfg_defaultClass = 'Layers'
+        cfg_squarePaymentMethod = 'Square'
+        cfg_cashPaymentMethod = 'Cash'
 
         # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
         tCur = self.db.cursor()
         tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Subtotal","Discount","Sales_Tax","Tips","Total","Fee","Net","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
         output_fh.write(self.IIF_HEAD)
-        for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,payment_method,card_brand,card_number,payment_id in tCur:
+        for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
             #TODO: unimplemented sales_tax and tips handling
             
             (year, month, day) = map(int,date.split('-', 2))
             
-            cc_digits = card_brand + " " + card_number.translate({ord(u'='):None,ord(u'"'):None})
+            if payment_type == 'Cash':
+                cc_digits = 'Square Cash Sale'
+                till_account=cfg_cashAccount
+                payment_method=cfg_cashPaymentMethod
+            else:
+                cc_digits = '{0:s}: {1:s} {2:s}'.format(square_payment_method,card_brand,card_number.strip('="'))
+                till_account=cfg_squareAccount
+                payment_method=cfg_squarePaymentMethod
             
-            #TODO: implement difference between cash transactions and card transactions
-            output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=cfg_cashAccount, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=payment_id, cc_digits=cc_digits))
+            output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
 
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
             iCur = self.db.cursor()
@@ -195,7 +204,7 @@ def main():
             error(trans)
             continue
         
-        output_file.write(trans_template.format(month=month, day=day, year=year, till_account=cfg_cashAccount, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=square_id, cc_digits=cc_digits))
+        output_file.write(trans_template.format(month=month, day=day, year=year, till_account=cfg_cashAccount, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=square_id, memo=cc_digits))
         
         #DEBUG
         print "--- Transaction %s ---" % (square_id)
