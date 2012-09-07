@@ -38,7 +38,7 @@ class SquareCSVReader(object):
 class SquareReader(object):
     """Interprets squareup.com CSV export files"""
     # This is the IIF template
-    IIF_HEAD =  "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tTOPRINT\tPAYMETH\tNAMEISTAXABLE\r\n"\
+    TRANS_HEAD =  "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tTOPRINT\tPAYMETH\tNAMEISTAXABLE\r\n"\
                 + "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tQNTY\tPRICE\tINVITEM\tTAXABLE\r\n"\
                 + "!ENDTRNS\r\n"
     TRANS_TEMPLATE = "TRNS\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\tN\r\n"
@@ -47,6 +47,12 @@ class SquareReader(object):
     DISC_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t\t{price:.2f}\t{item_name:s}\tN\r\n"
     ITEM_TYPES = {'Price':'REAL','Discount':'REAL','Tax':'REAL',}
     TRANS_FOOTER = "ENDTRNS\r\n"
+    FEE_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\tTOPRINT\r\n"\
+                +   "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\r\n"\
+                +   "!ENDTRNS\r\n"
+    FEE_TEMPLATE =      "TRNS\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{square_account}\t{square_vendor}\t{qb_class}\t-{amount}\t{square_id:s}\tN\tN\r\n"\
+                    +   "SPL\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{fees_account}\t\t\t{amount}\t\tN\r\n"\
+                    +   "ENDTRNS\r\n"
 
 
     def __init__(self):
@@ -109,6 +115,7 @@ class SquareReader(object):
         # TODO: implement config file
         cfg_cashAccount = 'Market Till'
         cfg_squareAccount = 'Square'
+        cfg_squareVendor = 'Square'
         cfg_defaultSalesAccount = 'Sales'
         cfg_discountAccount = 'Discount Expenses'
         cfg_discountItemName = 'Industry Discount'
@@ -116,11 +123,13 @@ class SquareReader(object):
         cfg_defaultClass = 'Layers'
         cfg_squarePaymentMethod = 'Square'
         cfg_cashPaymentMethod = 'Cash'
+        cfg_feeClass = 'Operations'
+        cfg_feeAccount = 'Square Fees'
 
         # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
         tCur = self.db.cursor()
         tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Subtotal","Discount","Sales_Tax","Tips","Total","Fee","Net","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
-        output_fh.write(self.IIF_HEAD)
+        output_fh.write(self.TRANS_HEAD)
         for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
             #TODO: unimplemented sales_tax and tips handling
             
@@ -149,8 +158,14 @@ class SquareReader(object):
             
             # END of sales transaction
             output_fh.write(self.TRANS_FOOTER)
-            #TODO: implement fee transaction
-            #TODO: implement deposits, if deposits.csv provided
+
+        fCur = self.db.cursor()
+        output_fh.write(self.FEE_HEAD)
+        fCur.execute('SELECT "Date","Fee","Payment_ID" FROM "transactions" WHERE "Fee" > 0')
+        for date, fee, payment_id in fCur:
+            (year, month, day) = map(int,date.split('-', 2))
+            output_fh.write(self.FEE_TEMPLATE.format(month=month, day=day, year=year, square_account=cfg_squareAccount, square_vendor=cfg_squareVendor, qb_class=cfg_feeClass, amount=fee, square_id=payment_id, fees_account=cfg_feeAccount))
+        #TODO: implement deposits, if deposits.csv provided
 
         
     def dumpSqliteMaster(self):
