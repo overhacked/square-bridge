@@ -38,9 +38,9 @@ class SquareCSVReader(object):
 class SquareReader(object):
     """Interprets squareup.com CSV export files"""
     # This is the IIF template
-    TRANS_HEAD =  "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tTOPRINT\tPAYMETH\tNAMEISTAXABLE\r\n"\
-                + "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tQNTY\tPRICE\tINVITEM\tTAXABLE\r\n"\
-                + "!ENDTRNS\r\n"
+    TRANS_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tTOPRINT\tPAYMETH\tNAMEISTAXABLE\r\n"\
+                    + "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tQNTY\tPRICE\tINVITEM\tTAXABLE\r\n"\
+                    + "!ENDTRNS\r\n"
     TRANS_TEMPLATE = "TRNS\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\tN\r\n"
     TRANS_TYPES = {'Subtotal':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net':'REAL',}
     ITEM_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t-{total:.2f}\t\t\t{qty:.2f}\t{price:.2f}\t{item_name:s}\tN\r\n"
@@ -146,6 +146,7 @@ class SquareReader(object):
             
             output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
 
+            #TODO: separate items into separate sales transactions based on Category_Name
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
             iCur = self.db.cursor()
             iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,))
