@@ -149,6 +149,19 @@ class SquareReader(object):
             #TODO: separate items into separate sales transactions based on Category_Name
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
             iCur = self.db.cursor()
+            iCur.execute('SELECT "Category_Name" FROM "items" WHERE "Payment_ID" = ?)',(payment_id,))
+            categoryMap = dict()
+            for category_name in iCur:
+                if category_name in cfg_classMap:
+                    classKey = cfg_classMap[category_name]
+                else:
+                    classKey = cfg_defaultClass
+
+                try:
+                    categoryMap[classKey].append(category_name)
+                except NameError:
+                    categoryMap[classKey] = [category_name]
+                
             iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,))
             for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
                 output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_defaultSalesAccount, qb_class=cfg_defaultClass, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
