@@ -120,11 +120,12 @@ class SquareReader(object):
         cfg_discountAccount = 'Discount Expenses'
         cfg_discountItemName = 'Industry Discount'
         cfg_customer = 'PRFM Customers'
-        cfg_defaultClass = 'Layers'
+        cfg_defaultClass = 'Farmers\' Market'
         cfg_squarePaymentMethod = 'Square'
         cfg_cashPaymentMethod = 'Cash'
         cfg_feeClass = 'Operations'
         cfg_feeAccount = 'Square Fees'
+        cfg_classMap = {'Wool':'Sheep','Lamb':'Sheep','Cheese':'Sheep:Creamery','Eggs':'Poultry:Chickens:Layers'}
 
         # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
         tCur = self.db.cursor()
@@ -144,34 +145,35 @@ class SquareReader(object):
                 till_account=cfg_squareAccount
                 payment_method=cfg_squarePaymentMethod
             
-            output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
-
             #TODO: separate items into separate sales transactions based on Category_Name
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
             iCur = self.db.cursor()
-            iCur.execute('SELECT "Category_Name" FROM "items" WHERE "Payment_ID" = ?)',(payment_id,))
+            iCur.execute('SELECT DISTINCT "Category_Name" FROM "items" WHERE "Payment_ID" = ?;',(payment_id,))
             categoryMap = dict()
-            for category_name in iCur:
+            for (category_name,) in iCur:
                 if category_name in cfg_classMap:
                     classKey = cfg_classMap[category_name]
                 else:
                     classKey = cfg_defaultClass
 
                 try:
-                    categoryMap[classKey].append(category_name)
-                except NameError:
-                    categoryMap[classKey] = [category_name]
-                
-            iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,))
-            for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
-                output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_defaultSalesAccount, qb_class=cfg_defaultClass, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
+                    categoryMap[classKey] += (category_name,)
+                except KeyError:
+                    categoryMap[classKey] = (category_name,)
+
+            for qb_class, square_categories in categoryMap.iteritems():
+                output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=cfg_customer, qb_class=qb_class, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
+
+                iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Category_Name","Item_Name","Price";'.format(categoryPlaceholders=','.join('?'*len(square_categories))),(payment_id,) + square_categories)
+                for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
+                    output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_defaultSalesAccount, qb_class=qb_class, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
+                    # Output one discount line per item, if any discount specified
+                    if item_discount < 0:
+                        output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_discountAccount, qb_class=qb_class, total=-discount, price=-discount, item_name=cfg_discountItemName))
+                # END of sales transaction
+                output_fh.write(self.TRANS_FOOTER)
             
-            # Output one discount line per transaction, if any discount specified
-            if discount < 0:
-                output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_discountAccount, qb_class=cfg_defaultClass, total=-discount, price=-discount, item_name=cfg_discountItemName))
             
-            # END of sales transaction
-            output_fh.write(self.TRANS_FOOTER)
 
         fCur = self.db.cursor()
         output_fh.write(self.FEE_HEAD)
