@@ -4,6 +4,7 @@ import os
 import sys, traceback, re
 import csv
 import sqlite3
+import config
 
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
