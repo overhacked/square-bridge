@@ -27,9 +27,9 @@ class SquareCSVReader(object):
             if len(v) > 0 and v[0] == '$':
                 newValue = float(v[1:])
             else:
-				floatMatch = self.floatRe.match(v)
-				if floatMatch:
-					newValue = float(floatMatch.group(0))
+                floatMatch = self.floatRe.match(v)
+                if floatMatch:
+                    newValue = float(floatMatch.group(0))
             
             newRow.append(newValue)
 
@@ -68,7 +68,7 @@ class SquareReader(object):
         transactionFieldsSql = []
         for field in self.transactionsReader.fieldnames:
             if field in self.TRANS_TYPES:
-                fieldType = self.TRANS_TYPES[field]	
+                fieldType = self.TRANS_TYPES[field]
             else:
                 fieldType = 'TEXT'
             fieldSql = '"%s" %s' % (field.replace(' ','_'), fieldType)
@@ -90,7 +90,7 @@ class SquareReader(object):
         itemFieldsSql = []
         for field in self.itemsReader.fieldnames:
             if field in self.ITEM_TYPES:
-                fieldType = self.ITEM_TYPES[field]	
+                fieldType = self.ITEM_TYPES[field]
             else:
                 fieldType = 'TEXT'
             fieldSql = '"%s" %s' % (field.replace(' ','_'), fieldType)
@@ -175,7 +175,7 @@ def main():
     output_file = open(os.path.join(PROJECT_ROOT, 'output.iif'), 'w')
     
     square = SquareReader()
-	
+
     # This is the name of the QuickBooks checking account
     account = "Square"
 
