@@ -185,78 +185,17 @@ class SquareReader(object):
             sys.exit('file %s, line %d: %s' % (self.transactionsFile.name, self.transactionsReader.line_num, e))
 
 def main():
+    #TODO: implement files as command line arguments
     transactions_file = open(os.path.join(PROJECT_ROOT, 'transactions.csv'), 'r')
     items_file = open(os.path.join(PROJECT_ROOT, 'items.csv'), 'r')
     output_file = open(os.path.join(PROJECT_ROOT, 'output.iif'), 'w')
     
     square = SquareReader()
 
-    # This is the name of the QuickBooks checking account
-    account = "Square"
-
-    #DEBUG
     square.importTransactions(transactions_file)
     square.importItems(items_file)
     square.dumpSql()
     square.exportIif(output_file)
-    exit()
-
-    # And here's the part that inserts data into the tempalate
-    item = None
-    prevItem = None
-    for trans in transactions:
-        try:
-            (year, month, day) = map(int,trans['Date'].split('-', 2))
-        except:
-            error(trans)
-            continue
-        
-        square_id = trans['Payment ID']
-        cc_digits = trans['Card Number'].translate(None,'="')
-        try:
-            total = float(trans['Total'].lstrip('$'))
-        except:
-            error(trans)
-            continue
-        
-        output_file.write(trans_template.format(month=month, day=day, year=year, till_account=cfg_cashAccount, customer=cfg_customer, qb_class=cfg_defaultClass, total=total, square_id=square_id, memo=cc_digits))
-        
-        #DEBUG
-        print "--- Transaction %s ---" % (square_id)
-        #END DEBUG
-        itemsCount = 0
-        while True:
-            prevItem = item
-            if prevItem is not None:
-                itemsCount += 1
-            print "itemsCount: %d" % itemsCount
-            try:
-                item = items.next()
-            except StopIteration:
-                # TODO: handle case for last item
-                outputItem(prevItem, itemsCount, cfg_defaultSalesAccount, cfg_defaultClass)
-                print "!!! StopIteration !!!"
-                break
-            print "item: %r\nprevItem: %r" % (item,prevItem)
-            if prevItem is None or (item['Payment ID'] == square_id and item['Item Name'] == prevItem['Item Name'] and item['Category Name'] == prevItem['Category Name'] and item['Price'] == prevItem['Price']):
-                print "DUPE!"
-                continue
-            else:
-                try:
-                    outputItem(prevItem, itemsCount, cfg_defaultSalesAccount, cfg_defaultClass)
-                    prevItem = None
-                    itemsCount = 0
-                except:
-                    error(prevItem)
-                    break
-                
-            if item['Payment ID'] != square_id:
-                break
-            
-        output_file.write(trans_footer)
-        #DEBUG
-        print "--- END Transaction ---"
-        #END DEBUG
         
 if __name__ == '__main__':
     main()
