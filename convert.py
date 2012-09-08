@@ -156,7 +156,12 @@ class SquareReader(object):
 
                 iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Category_Name","Item_Name","Price";'.format(categoryPlaceholders=category_placeholders),(payment_id,) + square_categories)
                 for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
-                    output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.sales, qb_class=qb_class, total=item_price*item_quantity, qty=item_quantity, price=item_price, item_name=item_name))
+                    if item_category in config.salesMap:
+                        sales_account = config.salesMap[item_category]
+                    else:
+                        sales_account = config.accounts.sales
+
+                    output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=sales_account, qb_class=qb_class, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
                     # Output one discount line per item, if any discount specified
                     if item_discount < 0:
                         output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.discounts.account, qb_class=qb_class, total=-discount, price=-discount, item_name=config.discounts.item))

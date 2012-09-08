@@ -38,6 +38,11 @@ if parser.has_section('categories'):
 	for category,qb_class in parser.items('categories'):
 		classMap[category] = qb_class
 
+salesMap = dict()
+if parser.has_section('sales'):
+	for category,account in parser.items('sales'):
+		salesMap[category] = account
+
 for section in ['accounts','discounts','names','payments','classes']:
 	sectionDict = dict()
 	for k,v in parser.items(section):
