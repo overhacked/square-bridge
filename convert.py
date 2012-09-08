@@ -113,21 +113,6 @@ class SquareReader(object):
         self.db.commit()
 
     def exportIif(self,output_fh):
-        # TODO: implement config file
-        cfg_cashAccount = 'Market Till'
-        cfg_squareAccount = 'Square'
-        cfg_squareVendor = 'Square'
-        cfg_defaultSalesAccount = 'Sales'
-        cfg_discountAccount = 'Discount Expenses'
-        cfg_discountItemName = 'Industry Discount'
-        cfg_customer = 'PRFM Customers'
-        cfg_defaultClass = 'Farmers\' Market'
-        cfg_squarePaymentMethod = 'Square'
-        cfg_cashPaymentMethod = 'Cash'
-        cfg_feeClass = 'Operations'
-        cfg_feeAccount = 'Square Fees'
-        cfg_classMap = {'Wool':'Sheep','Lamb':'Sheep','Cheese':'Sheep:Creamery','Eggs':'Poultry:Chickens:Layers'}
-
         # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
         tCur = self.db.cursor()
         tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Subtotal","Discount","Sales_Tax","Tips","Total","Fee","Net","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
@@ -139,12 +124,12 @@ class SquareReader(object):
             
             if payment_type == 'Cash':
                 cc_digits = 'Square Cash Sale'
-                till_account=cfg_cashAccount
-                payment_method=cfg_cashPaymentMethod
+                till_account=config.accounts.cash
+                payment_method=config.payments.cash
             else:
                 cc_digits = '{0:s}: {1:s} {2:s}'.format(square_payment_method,card_brand,card_number.strip('="'))
-                till_account=cfg_squareAccount
-                payment_method=cfg_squarePaymentMethod
+                till_account=config.accounts.square
+                payment_method=config.payments.square
             
             #TODO: separate items into separate sales transactions based on Category_Name
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
@@ -152,10 +137,10 @@ class SquareReader(object):
             iCur.execute('SELECT DISTINCT "Category_Name" FROM "items" WHERE "Payment_ID" = ?;',(payment_id,))
             categoryMap = dict()
             for (category_name,) in iCur:
-                if category_name in cfg_classMap:
-                    classKey = cfg_classMap[category_name]
+                if category_name in config.classMap:
+                    classKey = config.classMap[category_name]
                 else:
-                    classKey = cfg_defaultClass
+                    classKey = config.classes.default
 
                 try:
                     categoryMap[classKey] += (category_name,)
@@ -163,14 +148,14 @@ class SquareReader(object):
                     categoryMap[classKey] = (category_name,)
 
             for qb_class, square_categories in categoryMap.iteritems():
-                output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=cfg_customer, qb_class=qb_class, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
+                output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=qb_class, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
 
                 iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Category_Name","Item_Name","Price";'.format(categoryPlaceholders=','.join('?'*len(square_categories))),(payment_id,) + square_categories)
                 for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
-                    output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_defaultSalesAccount, qb_class=qb_class, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
+                    output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.sales, qb_class=qb_class, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
                     # Output one discount line per item, if any discount specified
                     if item_discount < 0:
-                        output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=cfg_discountAccount, qb_class=qb_class, total=-discount, price=-discount, item_name=cfg_discountItemName))
+                        output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.discounts.account, qb_class=qb_class, total=-discount, price=-discount, item_name=config.discounts.item))
                 # END of sales transaction
                 output_fh.write(self.TRANS_FOOTER)
             
@@ -181,7 +166,7 @@ class SquareReader(object):
         fCur.execute('SELECT "Date","Fee","Payment_ID" FROM "transactions" WHERE "Fee" > 0')
         for date, fee, payment_id in fCur:
             (year, month, day) = map(int,date.split('-', 2))
-            output_fh.write(self.FEE_TEMPLATE.format(month=month, day=day, year=year, square_account=cfg_squareAccount, square_vendor=cfg_squareVendor, qb_class=cfg_feeClass, amount=fee, square_id=payment_id, fees_account=cfg_feeAccount))
+            output_fh.write(self.FEE_TEMPLATE.format(month=month, day=day, year=year, square_account=config.accounts.square, square_vendor=config.names.square, qb_class=config.classes.fees, amount=fee, square_id=payment_id, fees_account=config.accounts.fees))
         #TODO: implement deposits, if deposits.csv provided
 
         
