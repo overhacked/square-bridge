@@ -11,6 +11,7 @@ square=Square
 sales=Sales
 fees=Square Fees
 tax=Sales Tax Payable
+tips=Tips
 
 [discounts]
 account=Discount Expenses
