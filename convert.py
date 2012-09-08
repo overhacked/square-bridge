@@ -45,6 +45,7 @@ class SquareReader(object):
     TRANS_TEMPLATE = "TRNS\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\tN\r\n"
     TRANS_TYPES = {'Subtotal':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net':'REAL',}
     ITEM_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t-{total:.2f}\t\t\t{qty:.2f}\t{price:.2f}\t{item_name:s}\tN\r\n"
+    TAX_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t{vendor_name}\t{qb_class}\t-{total:.2f}\t\t\t\t{rate:.2f}%\t{item_name:s}\tN\r\n"
     DISC_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t\t{price:.2f}\t{item_name:s}\tN\r\n"
     ITEM_TYPES = {'Price':'REAL','Discount':'REAL','Tax':'REAL',}
     TRANS_FOOTER = "ENDTRNS\r\n"
@@ -149,10 +150,10 @@ class SquareReader(object):
 
             for qb_class, square_categories in categoryMap.iteritems():
                 category_placeholders = ','.join('?'*len(square_categories))
-                iCur.execute('SELECT SUM("Price"+"Discount") FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Payment_ID"'.format(categoryPlaceholders=category_placeholders),(payment_id,) + square_categories) 
-                (category_total,) = iCur.fetchone()
+                iCur.execute('SELECT SUM("Price"+"Discount"), SUM("Tax") FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Payment_ID"'.format(categoryPlaceholders=category_placeholders),(payment_id,) + square_categories) 
+                (category_total,category_tax) = iCur.fetchone()
 
-                output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=qb_class, total=category_total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
+                output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=qb_class, total=category_total+category_tax, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
 
                 iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Category_Name","Item_Name","Price";'.format(categoryPlaceholders=category_placeholders),(payment_id,) + square_categories)
                 for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
@@ -165,6 +166,10 @@ class SquareReader(object):
                     # Output one discount line per item, if any discount specified
                     if item_discount < 0:
                         output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.discounts.account, qb_class=qb_class, total=-discount, price=-discount, item_name=config.discounts.item))
+                
+                if category_tax > 0:
+                    output_fh.write(self.TAX_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.tax, qb_class=qb_class, total=category_tax, rate=category_tax/category_total*100.0, item_name=config.names.tax_item, vendor_name=config.names.tax_vendor))
+
                 # END of sales transaction
                 output_fh.write(self.TRANS_FOOTER)
             

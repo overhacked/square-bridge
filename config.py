@@ -10,6 +10,7 @@ cash=Cash
 square=Square
 sales=Sales
 fees=Square Fees
+tax=Sales Tax Payable
 
 [discounts]
 account=Discount Expenses
@@ -18,6 +19,8 @@ item=Industry Discount
 [names]
 square=Square
 customer=Market Customers
+tax_vendor=Sales Tax Vendor
+tax_item=State Sales Tax
 
 [payments]
 square=Square
