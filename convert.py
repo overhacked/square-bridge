@@ -148,11 +148,15 @@ class SquareReader(object):
                     categoryMap[classKey] = (category_name,)
 
             for qb_class, square_categories in categoryMap.iteritems():
-                output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=qb_class, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
+                category_placeholders = ','.join('?'*len(square_categories))
+                iCur.execute('SELECT SUM("Price"+"Discount") FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Payment_ID"'.format(categoryPlaceholders=category_placeholders),(payment_id,) + square_categories) 
+                (category_total,) = iCur.fetchone()
 
-                iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Category_Name","Item_Name","Price";'.format(categoryPlaceholders=','.join('?'*len(square_categories))),(payment_id,) + square_categories)
+                output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=qb_class, total=category_total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
+
+                iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Category_Name","Item_Name","Price";'.format(categoryPlaceholders=category_placeholders),(payment_id,) + square_categories)
                 for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
-                    output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.sales, qb_class=qb_class, total=item_price, qty=item_quantity, price=item_price, item_name=item_name))
+                    output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.sales, qb_class=qb_class, total=item_price*item_quantity, qty=item_quantity, price=item_price, item_name=item_name))
                     # Output one discount line per item, if any discount specified
                     if item_discount < 0:
                         output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.discounts.account, qb_class=qb_class, total=-discount, price=-discount, item_name=config.discounts.item))
