@@ -218,7 +218,6 @@ def main():
 
     square.importTransactions(transactions_file)
     square.importItems(items_file)
-    square.dumpSql()
     square.exportIif(output_file)
         
 if __name__ == '__main__':
