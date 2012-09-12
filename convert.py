@@ -120,8 +120,6 @@ class SquareReader(object):
         tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Subtotal","Discount","Sales_Tax","Tips","Total","Fee","Net","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
         output_fh.write(self.TRANS_HEAD)
         for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
-            needTipsLine = True if tips > 0 else False
-            
             (year, month, day) = map(int,date.split('-', 2))
             
             if payment_type == 'Cash':
@@ -135,51 +133,34 @@ class SquareReader(object):
             
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
             iCur = self.db.cursor()
-            iCur.execute('SELECT DISTINCT "Category_Name" FROM "items" WHERE "Payment_ID" = ?;',(payment_id,))
-            categoryMap = dict()
-            for (category_name,) in iCur:
-                if category_name in config.classMap:
-                    classKey = config.classMap[category_name]
+
+            output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=config.classes.default, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
+
+            iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,))
+            for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
+                if item_category in config.salesMap:
+                    sales_account = config.salesMap[item_category]
                 else:
-                    classKey = config.classes.default
+                    sales_account = config.accounts.sales
 
-                try:
-                    categoryMap[classKey] += (category_name,)
-                except KeyError:
-                    categoryMap[classKey] = (category_name,)
+                if item_category in config.classMap:
+                    item_class = config.classMap[item_category]
+                else:
+                    item_class = config.classes.default
 
-            for qb_class, square_categories in categoryMap.iteritems():
-                category_placeholders = ','.join('?'*len(square_categories))
-                iCur.execute('SELECT SUM("Price"+"Discount"), SUM("Tax") FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Payment_ID"'.format(categoryPlaceholders=category_placeholders),(payment_id,) + square_categories) 
-                (category_total,category_tax) = iCur.fetchone()
+                output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=sales_account, qb_class=item_class, total=item_price*item_quantity, qty=item_quantity, price=item_price, item_name=item_name))
+                # Output one discount line per item, if any discount specified
+                if item_discount < 0:
+                    output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.discounts.account, qb_class=item_class, total=-item_discount, price=-item_discount, item_name=config.discounts.item))
+            
+            if sales_tax > 0:
+                output_fh.write(self.TAX_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.tax, qb_class=config.classes.default, total=sales_tax, rate=sales_tax/total*100.0, item_name=config.names.tax_item, vendor_name=config.names.tax_vendor))
 
-                if needTipsLine:
-                    category_total += tips
+            if tips > 0:
+                output_fh.write(self.TIPS_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.tips, qb_class=config.classes.default, total=tips, item_name=config.names.tips_item))
 
-                output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=qb_class, total=category_total+category_tax, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
-
-                iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Category_Name" IN ({categoryPlaceholders:s}) GROUP BY "Category_Name","Item_Name","Price";'.format(categoryPlaceholders=category_placeholders),(payment_id,) + square_categories)
-                for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
-                    if item_category in config.salesMap:
-                        sales_account = config.salesMap[item_category]
-                    else:
-                        sales_account = config.accounts.sales
-
-                    output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=sales_account, qb_class=qb_class, total=item_price*item_quantity, qty=item_quantity, price=item_price, item_name=item_name))
-                    # Output one discount line per item, if any discount specified
-                    if item_discount < 0:
-                        output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.discounts.account, qb_class=qb_class, total=-item_discount, price=-item_discount, item_name=config.discounts.item))
-                
-                if category_tax > 0:
-                    output_fh.write(self.TAX_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.tax, qb_class=qb_class, total=category_tax, rate=category_tax/category_total*100.0, item_name=config.names.tax_item, vendor_name=config.names.tax_vendor))
-
-                if needTipsLine:
-                    output_fh.write(self.TIPS_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.tips, qb_class='', total=tips, item_name=config.names.tips_item))
-                    needTipsLine = False
-                    
-
-                # END of sales transaction
-                output_fh.write(self.TRANS_FOOTER)
+            # END of sales transaction
+            output_fh.write(self.TRANS_FOOTER)
             
             
 
