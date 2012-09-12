@@ -120,9 +120,7 @@ class SquareReader(object):
         tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Subtotal","Discount","Sales_Tax","Tips","Total","Fee","Net","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
         output_fh.write(self.TRANS_HEAD)
         for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
-            #TODO: unimplemented sales_tax and tips handling
             needTipsLine = True if tips > 0 else False
-
             
             (year, month, day) = map(int,date.split('-', 2))
             
@@ -135,7 +133,6 @@ class SquareReader(object):
                 till_account=config.accounts.square
                 payment_method=config.payments.square
             
-            #TODO: separate items into separate sales transactions based on Category_Name
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
             iCur = self.db.cursor()
             iCur.execute('SELECT DISTINCT "Category_Name" FROM "items" WHERE "Payment_ID" = ?;',(payment_id,))
@@ -213,9 +210,9 @@ class SquareReader(object):
 
 def main():
     #TODO: implement files as command line arguments
-    transactions_file = open(os.path.join(PROJECT_ROOT, 'transactions.csv'), 'r')
-    items_file = open(os.path.join(PROJECT_ROOT, 'items.csv'), 'r')
-    output_file = open(os.path.join(PROJECT_ROOT, 'output.iif'), 'w')
+    transactions_file = open(os.path.join(PROJECT_ROOT, config.cmdline.transactions), 'r')
+    items_file = open(os.path.join(PROJECT_ROOT, config.cmdline.items), 'r')
+    output_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output), 'w')
     
     square = SquareReader()
 
