@@ -44,7 +44,9 @@ class SquareReader(object):
                     + "!ENDTRNS\r\n"
     TRANS_TEMPLATE = "TRNS\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\tN\r\n"
     TRANS_TYPES = {'Subtotal':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net':'REAL',}
-    ITEM_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t-{total:.2f}\t\t\t-{qty:.2f}\t{price:.2f}\t{item_name:s}\tN\r\n"
+    PART_HEAD =     "!INVITEM\tNAME\tINVITEMTYPE\tDESC\tACCNT\tPRICE\tTAXABLE\r\n"
+    PART_TEMPLATE = "INVITEM\t{item_name}\tPART\t{item_description}\t{sales_account}\t{item_price:.2f}\t{taxable}\r\n"
+    ITEM_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t-{total:.2f}\t-{qty:.2f}\t{price:.2f}\t{item_name:s}\tN\r\n"
     TAX_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t{vendor_name}\t{qb_class}\t-{total:.2f}\t\t\t\t{rate:.2f}%\t{item_name:s}\tN\r\n"
     TIPS_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t-{total:.2f}\t\t\t\t{rate:.2f}%\t{item_name:s}\tN\r\n"
     DISC_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t\t\t{item_name:s}\tN\r\n"
@@ -115,8 +117,37 @@ class SquareReader(object):
         self.db.commit()
 
     def exportIif(self,output_fh):
-        # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
         tCur = self.db.cursor()
+        iCur = self.db.cursor()
+
+        # If the user is using the [items] mapping support in the config file, generate
+        # IIF !INVITEM lines so that items don't get repeatedly created for every !TRNS line
+        if len(config.itemsMap) > 0:
+            output_fh.write(self.PART_HEAD)
+            iCur.execute('SELECT "Category_Name","Item_Name",MAX("Price"),MAX("Tax") FROM "items" GROUP BY "Category_Name","Item_Name";')
+            for item_category,item_name,item_maxprice,item_maxtax in iCur:
+                # Rewrite item name if specified in config
+                if item_name in config.itemsMap:
+                    item_qb_name = config.itemsMap[item_name]
+                else:
+                    item_qb_name = item_name
+
+                if item_category in config.salesMap:
+                    sales_account = config.salesMap[item_category]
+                else:
+                    sales_account = config.accounts.sales
+
+                if item_maxprice < 1.0:
+                    item_maxprice *= 100
+
+                if item_maxtax > 0:
+                    item_taxable = 'Y'
+                else:
+                    item_taxable = 'N'
+
+                output_fh.write(self.PART_TEMPLATE.format(item_name=item_qb_name,item_description=item_name,sales_account=sales_account,item_price=item_maxprice,taxable=item_taxable))
+            
+        # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
         tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Subtotal","Discount","Sales_Tax","Tips","Total","Fee","Net","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
         output_fh.write(self.TRANS_HEAD)
         for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
@@ -132,7 +163,6 @@ class SquareReader(object):
                 payment_method=config.payments.square
             
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
-            iCur = self.db.cursor()
 
             output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=config.classes.default, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method))
 
