@@ -148,6 +148,10 @@ class SquareReader(object):
                 else:
                     item_class = config.classes.default
 
+                # Rewrite item name if specified in config
+                if item_name in config.itemsMap:
+                    item_name = config.itemsMap[item_name]
+
                 output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=sales_account, qb_class=item_class, total=item_price*item_quantity, qty=item_quantity, price=item_price, item_name=item_name))
                 # Output one discount line per item, if any discount specified
                 if item_discount < 0:

@@ -57,6 +57,11 @@ if file_parser.has_section('sales'):
 	for category,account in file_parser.items('sales'):
 		salesMap[category] = account
 
+itemsMap = dict()
+if file_parser.has_section('items'):
+	for square_item,qb_item in file_parser.items('items'):
+		itemsMap[square_item] = qb_item
+
 for section in ['accounts','discounts','names','payments','classes']:
 	sectionDict = dict()
 	for k,v in file_parser.items(section):
