@@ -36,6 +36,7 @@ tax_item=State Sales Tax
 [payments]
 square=Square
 cash=Cash
+shipvia=
 
 [classes]
 default=
