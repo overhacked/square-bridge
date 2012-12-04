@@ -39,10 +39,10 @@ class SquareCSVReader(object):
 class SquareReader(object):
     """Interprets squareup.com CSV export files"""
     # This is the IIF template
-    TRANS_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tMEMO\tTOPRINT\tPAYMETH\tSHIPVIA\tNAMEISTAXABLE\r\n"\
+    TRANS_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tPONUM\tMEMO\tTOPRINT\tPAYMETH\tSHIPVIA\tNAMEISTAXABLE\r\n"\
                     + "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tQNTY\tPRICE\tINVITEM\tTAXABLE\r\n"\
                     + "!ENDTRNS\r\n"
-    TRANS_TEMPLATE = "TRNS\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\t{shipvia:s}\tN\r\n"
+    TRANS_TEMPLATE = "TRNS\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\t{shipvia:s}\tN\r\n"
     TRANS_TYPES = {'Subtotal':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net':'REAL',}
     PART_HEAD =     "!INVITEM\tNAME\tINVITEMTYPE\tDESC\tACCNT\tPRICE\tTAXABLE\r\n"
     PART_TEMPLATE = "INVITEM\t{item_name}\tPART\t{item_description}\t{sales_account}\t{item_price:.2f}\t{taxable}\r\n"
