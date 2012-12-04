@@ -149,7 +149,8 @@ class SquareReader(object):
                 output_fh.write(self.PART_TEMPLATE.format(item_name=item_qb_name,item_description=item_name,sales_account=sales_account,item_price=item_maxprice,taxable=item_taxable))
             
         # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
-        tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Subtotal","Discount","Sales_Tax","Tips","Total","Fee","Net","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
+        # NEW trans. columns : Date,Time,Transaction_Type,Payment_Type,Sales,Discount,Tips,Total,Fee,Net_Total,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
+        tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Sales","Discount","Sales_Tax","Tips","Total","Fee","Net_Total","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
         output_fh.write(self.TRANS_HEAD)
         for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
             (year, month, day) = map(int,date.split('-', 2))
@@ -164,6 +165,7 @@ class SquareReader(object):
                 payment_method=config.payments.square
             
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
+            # NEW item col: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Notes
 
             output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=config.classes.default, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method, shipvia=config.payments.shipvia))
 
