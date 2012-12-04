@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Script to convert CSV to IIF output.
 
 import os
@@ -141,7 +142,7 @@ class SquareReader(object):
                 if item_maxprice < 1.0:
                     item_maxprice *= 100
 
-                if item_maxtax > 0:
+                if isinstance(item_maxtax, (int,long)) and item_maxtax > 0:
                     item_taxable = 'Y'
                 else:
                     item_taxable = 'N'
@@ -163,6 +164,10 @@ class SquareReader(object):
                 cc_digits = '{0:s}: {1:s} {2:s}'.format(square_payment_method,card_brand,card_number.strip('="'))
                 till_account=config.accounts.square
                 payment_method=config.payments.square
+
+            # Fix for missing transactions.Sales_Tax column
+            if not isinstance(sales_tax, (int,long)):
+                sales_tax = 0
             
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
             # NEW item col: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Notes
@@ -184,6 +189,10 @@ class SquareReader(object):
                 # Rewrite item name if specified in config
                 if item_name in config.itemsMap:
                     item_name = config.itemsMap[item_name]
+
+                # Fix for missing items.Tax column
+                if not isinstance(item_tax, (int,long)):
+                    item_tax = 0
 
                 output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=sales_account, qb_class=item_class, total=item_price*item_quantity, qty=item_quantity, price=item_price, item_name=item_name))
                 # Output one discount line per item, if any discount specified
