@@ -151,7 +151,7 @@ class SquareReader(object):
             
         # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
         # NEW trans. columns : Date,Time,Transaction_Type,Payment_Type,Sales,Discount,Tips,Total,Fee,Net_Total,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
-        tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Sales","Discount","Sales_Tax","Tips","Total","Fee","Net_Total","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions"')
+        tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Sales","Discount","Sales_Tax","Tips","Total","Fee","Net_Total","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions" WHERE "Sales" > 0')
         output_fh.write(self.TRANS_HEAD)
         for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
             (year, month, day) = map(int,date.split('-', 2))
