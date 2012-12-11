@@ -50,7 +50,6 @@ class SquareReader(object):
     TAX_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t{vendor_name}\t{qb_class}\t-{total:.2f}\t\t{rate:.2f}%\t{item_name:s}\tN\r\n"
     TIPS_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t-{total:.2f}\t\t\t{item_name:s}\tN\r\n"
     DISC_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t{item_name:s}\tN\r\n"
-    ITEM_TYPES = {'Price':'REAL','Discount':'REAL','Tax':'REAL',}
     TRANS_FOOTER = "ENDTRNS\r\n"
     FEE_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\tTOPRINT\r\n"\
                 +   "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\r\n"\
@@ -59,7 +58,8 @@ class SquareReader(object):
                     +   "SPL\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{fees_account}\t\t{qb_class}\t{amount}\t\tN\r\n"\
                     +   "ENDTRNS\r\n"
     # This maps Squareup.com CSV fields to SQLite types
-    TRANS_TYPES = {'Subtotal':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net':'REAL',}
+    ITEM_TYPES = {'Price':'REAL','Discount':'REAL','Tax':'REAL',}
+    TRANS_TYPES = {'Sales':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net Total':'REAL',}
 
 
     def __init__(self):
