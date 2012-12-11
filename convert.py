@@ -9,6 +9,9 @@ import config
 
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
+class UnknownCSVTypeWarning(Warning):
+    pass
+
 class SquareCSVReader(object):
     """Interprets squareup.com CSV export files"""
 
@@ -43,18 +46,20 @@ class SquareReader(object):
     TRANS_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tPONUM\tMEMO\tTOPRINT\tPAYMETH\tSHIPVIA\tNAMEISTAXABLE\r\n"\
                     + "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tQNTY\tPRICE\tINVITEM\tTAXABLE\r\n"\
                     + "!ENDTRNS\r\n"
-    TRANS_TEMPLATE = "TRNS\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\t{shipvia:s}\tN\r\n"
+    TRANS_TYPE_SALE = "CASH SALE"
+    TRANS_TYPE_REFUND = "CASH REFUND"
+    TRANS_TEMPLATE =  "TRNS\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\t{shipvia:s}\tN\r\n"
     PART_HEAD =     "!INVITEM\tNAME\tINVITEMTYPE\tDESC\tACCNT\tPRICE\tTAXABLE\r\n"
     PART_TEMPLATE = "INVITEM\t{item_name}\tPART\t{item_description}\t{sales_account}\t{item_price:.2f}\t{taxable}\r\n"
-    ITEM_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t-{total:.2f}\t-{qty:.2f}\t{price:.2f}\t{item_name:s}\tN\r\n"
-    TAX_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t{vendor_name}\t{qb_class}\t-{total:.2f}\t\t{rate:.2f}%\t{item_name:s}\tN\r\n"
-    TIPS_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t-{total:.2f}\t\t\t{item_name:s}\tN\r\n"
-    DISC_TEMPLATE = "SPL\t\tCASH SALE\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t{item_name:s}\tN\r\n"
+    ITEM_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t{qty:.2f}\t{price:.2f}\t{item_name:s}\tN\r\n"
+    TAX_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t{vendor_name}\t{qb_class}\t{total:.2f}\t\t{rate:.2f}%\t{item_name:s}\tN\r\n"
+    TIPS_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t{item_name:s}\tN\r\n"
+    DISC_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t{item_name:s}\tN\r\n"
     TRANS_FOOTER = "ENDTRNS\r\n"
     FEE_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\tTOPRINT\r\n"\
                 +   "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\r\n"\
                 +   "!ENDTRNS\r\n"
-    FEE_TEMPLATE =      "TRNS\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{square_account}\t{square_vendor}\t{qb_class}\t-{amount}\t{square_id:s}\tN\tN\r\n"\
+    FEE_TEMPLATE =      "TRNS\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{square_account}\t{square_vendor}\t{qb_class}\t{amount_neg}\t{square_id:s}\tN\tN\r\n"\
                     +   "SPL\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{fees_account}\t\t{qb_class}\t{amount}\t\tN\r\n"\
                     +   "ENDTRNS\r\n"
     # This maps Squareup.com CSV fields to SQLite types
@@ -151,16 +156,28 @@ class SquareReader(object):
             
         # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
         # NEW trans. columns : Date,Time,Transaction_Type,Payment_Type,Sales,Discount,Tips,Total,Fee,Net_Total,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
-        tCur.execute('SELECT "Date","Transaction_Type","Payment_Type","Sales","Discount","Sales_Tax","Tips","Total","Fee","Net_Total","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions" WHERE "Sales" > 0')
+        tCur.execute('SELECT "Date","Time","Transaction_Type","Payment_Type","Sales","Discount","Sales_Tax","Tips","Total","Fee","Net_Total","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions" WHERE "Sales" <> 0')
         output_fh.write(self.TRANS_HEAD)
-        for date,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
+        for date,time,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
             (year, month, day) = map(int,date.split('-', 2))
             
-            if payment_type == 'Cash':
+            if payment_type == 'Cash' or payment_type == 'Card':
+                qb_type = self.TRANS_TYPE_SALE
+                isRefund = False
+            elif payment_type == 'Refund':
+                qb_type = self.TRANS_TYPE_REFUND
+                isRefund = True
+            else:
+                raise UnknownCSVTypeWarning('Skipping transaction {transaction_id}; unknown Payment Type: {value!r}'.format(transaction_id=payment_id,value=payment_type))
+                # Skip the current transaction
+                continue
+
+            # Payment Method is only filled in for Card sales, so use it to detect card refunds
+            if payment_type == 'Cash' or (isRefund and not square_payment_method):
                 cc_digits = 'Square Cash Sale'
                 till_account=config.accounts.cash
                 payment_method=config.payments.cash
-            else:
+            elif payment_type == 'Card' or (isRefund and square_payment_method):
                 cc_digits = '{0:s}: {1:s} {2:s}'.format(square_payment_method,card_brand,card_number.strip('="'))
                 till_account=config.accounts.square
                 payment_method=config.payments.square
@@ -172,9 +189,9 @@ class SquareReader(object):
             # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
             # NEW item col: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Notes
 
-            output_fh.write(self.TRANS_TEMPLATE.format(month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=config.classes.default, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method, shipvia=config.payments.shipvia))
+            output_fh.write(self.TRANS_TEMPLATE.format(qb_type=qb_type, month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=config.classes.default, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method, shipvia=config.payments.shipvia))
 
-            iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" < 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" < 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,))
+            iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" BETWEEN -1.0 AND 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" BETWEEN -1.0 AND 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Date" = ? AND "Time" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,date,time,))
             for item_category,item_name,item_quantity,item_price,item_discount,item_tax in iCur:
                 if item_category in config.salesMap:
                     sales_account = config.salesMap[item_category]
@@ -194,16 +211,16 @@ class SquareReader(object):
                 if not isinstance(item_tax, (int,long)):
                     item_tax = 0
 
-                output_fh.write(self.ITEM_TEMPLATE.format(month=month, day=day, year=year, sales_account=sales_account, qb_class=item_class, total=item_price*item_quantity, qty=item_quantity, price=item_price, item_name=item_name))
+                output_fh.write(self.ITEM_TEMPLATE.format(qb_type=qb_type, month=month, day=day, year=year, sales_account=sales_account, qb_class=item_class, total=-item_price*item_quantity, qty=-item_quantity, price=item_price, item_name=item_name))
                 # Output one discount line per item, if any discount specified
-                if item_discount < 0:
-                    output_fh.write(self.DISC_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.discounts.account, qb_class=item_class, total=-item_discount, price=-item_discount, item_name=config.discounts.item))
+                if item_discount < 0 or (isRefund and item_discount > 0):
+                    output_fh.write(self.DISC_TEMPLATE.format(qb_type=qb_type, month=month, day=day, year=year, sales_account=config.discounts.account, qb_class=item_class, total=-item_discount, price=-item_discount, item_name=config.discounts.item))
             
-            if sales_tax > 0:
-                output_fh.write(self.TAX_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.tax, qb_class=config.classes.default, total=sales_tax, rate=sales_tax/total*100.0, item_name=config.names.tax_item, vendor_name=config.names.tax_vendor))
+            if sales_tax > 0 or (isRefund and sales_tax < 0):
+                output_fh.write(self.TAX_TEMPLATE.format(qb_type=qb_type, month=month, day=day, year=year, sales_account=config.accounts.tax, qb_class=config.classes.default, total=-sales_tax, rate=abs(sales_tax/total*100.0), item_name=config.names.tax_item, vendor_name=config.names.tax_vendor))
 
-            if tips > 0:
-                output_fh.write(self.TIPS_TEMPLATE.format(month=month, day=day, year=year, sales_account=config.accounts.tips, qb_class=config.classes.default, total=tips, item_name=config.names.tips_item))
+            if tips > 0 or (isRefund and tips < 0):
+                output_fh.write(self.TIPS_TEMPLATE.format(qb_type=qb_type, month=month, day=day, year=year, sales_account=config.accounts.tips, qb_class=config.classes.default, total=-tips, item_name=config.names.tips_item))
 
             # END of sales transaction
             output_fh.write(self.TRANS_FOOTER)
@@ -212,10 +229,10 @@ class SquareReader(object):
 
         fCur = self.db.cursor()
         output_fh.write(self.FEE_HEAD)
-        fCur.execute('SELECT "Date","Fee","Payment_ID" FROM "transactions" WHERE "Fee" > 0')
+        fCur.execute('SELECT "Date","Fee","Payment_ID" FROM "transactions" WHERE "Fee" <> 0')
         for date, fee, payment_id in fCur:
             (year, month, day) = map(int,date.split('-', 2))
-            output_fh.write(self.FEE_TEMPLATE.format(month=month, day=day, year=year, square_account=config.accounts.square, square_vendor=config.names.square, qb_class=config.classes.fees, amount=fee, square_id=payment_id, fees_account=config.accounts.fees))
+            output_fh.write(self.FEE_TEMPLATE.format(month=month, day=day, year=year, square_account=config.accounts.square, square_vendor=config.names.square, qb_class=config.classes.fees, amount=fee, amount_neg=-fee, square_id=payment_id, fees_account=config.accounts.fees))
         #TODO: implement deposits, if deposits.csv provided
 
         
