@@ -174,11 +174,11 @@ class SquareReader(object):
 
             # Payment Method is only filled in for Card sales, so use it to detect card refunds
             if payment_type == 'Cash' or (isRefund and not square_payment_method):
-                cc_digits = 'Square Cash Sale'
+                cc_digits = 'Square Cash ' + ('REFUND' if isRefund else 'Sale')
                 till_account=config.accounts.cash
                 payment_method=config.payments.cash
             elif payment_type == 'Card' or (isRefund and square_payment_method):
-                cc_digits = '{0:s}: {1:s} {2:s}'.format(square_payment_method,card_brand,card_number.strip('="'))
+                cc_digits = '{0:s}: {1:s} {2:s}{3:s}'.format(square_payment_method,card_brand,card_number.strip('="'),' (REFUND)' if isRefund else '')
                 till_account=config.accounts.square
                 payment_method=config.payments.square
 
