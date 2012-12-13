@@ -64,7 +64,7 @@ class SquareReader(object):
                     +   "ENDTRNS\r\n"
     # This maps Squareup.com CSV fields to SQLite types
     ITEM_TYPES = {'Price':'REAL','Discount':'REAL','Tax':'REAL',}
-    TRANS_TYPES = {'Sales':'REAL','Discount':'REAL','Sales Tax':'REAL','Tips':'REAL','Total':'REAL','Fee':'REAL','Net Total':'REAL',}
+    TRANS_TYPES = {'Sale':'REAL','Discount':'REAL','Sales Tax':'REAL','Tip':'REAL','Total Collected':'REAL','Fee':'REAL','Net Total':'REAL',}
 
 
     def __init__(self):
@@ -154,31 +154,31 @@ class SquareReader(object):
 
                 output_fh.write(self.PART_TEMPLATE.format(item_name=item_qb_name,item_description=item_name,sales_account=sales_account,item_price=item_maxprice,taxable=item_taxable))
             
-        # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
-        # NEW trans. columns : Date,Time,Transaction_Type,Payment_Type,Sales,Discount,Tips,Total,Fee,Net_Total,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
-        tCur.execute('SELECT "Date","Time","Transaction_Type","Payment_Type","Sales","Discount","Sales_Tax","Tips","Total","Fee","Net_Total","Payment_Method","Card_Brand","Card_Number","Payment_ID","Description" FROM "transactions" WHERE "Sales" <> 0')
+        # Transaction columns: Date,Time,Sale,Discount,Tip,Total Collected,Transaction Type,Cash,Gift Card,Wallet,Card - Swiped,Card - Keyed,Other,Total Collected,Fee,Net Total,Card Brand,Card Number,Details,Payment ID,Device Name,Description
+        tCur.execute('SELECT "Date","Time","Transaction_Type","Sale","Discount","Sales_Tax","Tip","Total Collected","Fee","Net_Total","Card_Brand","Card_Number","Payment_ID","Description" FROM "transactions" WHERE "Sales" <> 0')
         output_fh.write(self.TRANS_HEAD)
-        for date,time,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id,description in tCur:
+        for date,time,transaction_type,subtotal,discount,sales_tax,tips,total,fee,net,card_brand,card_number,payment_id,description in tCur:
             (year, month, day) = map(int,date.split('-', 2))
             
-            if payment_type == 'Cash' or payment_type == 'Card':
+            if transaction_type == 'Payment':
                 qb_type = self.TRANS_TYPE_SALE
                 isRefund = False
-            elif payment_type == 'Refund':
+            elif transaction_type == 'Refund':
                 qb_type = self.TRANS_TYPE_REFUND
                 isRefund = True
             else:
-                raise UnknownCSVTypeWarning('Skipping transaction {transaction_id}; unknown Payment Type: {value!r}'.format(transaction_id=payment_id,value=payment_type))
+                raise UnknownCSVTypeWarning('Skipping transaction {transaction_id}; unknown Transaction Type: {value!r}'.format(transaction_id=payment_id,value=transaction_type))
                 # Skip the current transaction
                 continue
 
-            # Payment Method is only filled in for Card sales, so use it to detect card refunds
-            if payment_type == 'Cash' or (isRefund and not square_payment_method):
+            # Card Brand is only filled in for Card sales, so use it to detect card sales
+            # TODO: support sales with multiple payment sources
+            if not card_brand:
                 cc_digits = 'Square Cash ' + ('REFUND: {0:s}'.format(description) if isRefund else 'Sale')
                 till_account=config.accounts.cash
                 payment_method=config.payments.cash
-            elif payment_type == 'Card' or (isRefund and square_payment_method):
-                cc_digits = '{0:s}: {1:s} {2:s}{3:s}'.format(square_payment_method,card_brand,card_number.strip('="'),' (REFUND: {0:s})'.format(description) if isRefund else '')
+            else:
+                cc_digits = '{0:s} {1:s}{2:s}'.format(card_brand,card_number.strip('="'),' (REFUND: {0:s})'.format(description) if isRefund else '')
                 till_account=config.accounts.square
                 payment_method=config.payments.square
 
@@ -186,9 +186,7 @@ class SquareReader(object):
             if not isinstance(sales_tax, (int,long)):
                 sales_tax = 0
             
-            # Item columns: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Tax,Notes
-            # NEW item col: Date,Time,Details,Payment_ID,Device_Name,Category_Name,Item_Name,Price,Discount,Notes
-
+            # Item columns: Date,Time,Details,Payment ID,Device Name,Category Name,Item Name,Price,Discount,Notes
             output_fh.write(self.TRANS_TEMPLATE.format(qb_type=qb_type, month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=config.classes.default, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method, shipvia=config.payments.shipvia))
 
             iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" BETWEEN -1.0 AND 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" BETWEEN -1.0 AND 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Date" = ? AND "Time" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,date,time,))
