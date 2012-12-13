@@ -18,6 +18,14 @@ class SquareCSVReader(object):
     def __init__(self, csvfile):
         self.reader = csv.reader(csvfile, dialect='excel')        
         self.fieldnames = self.reader.next()
+        # Kludge to fix duplicate 'Total Collected' field from squareup.com
+        try:
+            replacementIndex = self.fieldnames.index(u'Total Collected')
+            self.fieldnames[replacementIndex] = u'Total Collected DUP'
+        except ValueError:
+            # Nothing to replace
+            pass
+
         self.floatRe = re.compile('[-+]?[0-9]+\.[0-9]+')
         
     def __iter__(self):
