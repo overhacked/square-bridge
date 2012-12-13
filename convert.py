@@ -156,9 +156,9 @@ class SquareReader(object):
             
         # Transaction columns: Date,Time,Transaction_Type,Payment_Type,Subtotal,Discount,Sales_Tax,Tips,Total,Fee,Net,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
         # NEW trans. columns : Date,Time,Transaction_Type,Payment_Type,Sales,Discount,Tips,Total,Fee,Net_Total,Payment_Method,Card_Brand,Card_Number,Details,Payment_ID,Device_Name,Description
-        tCur.execute('SELECT "Date","Time","Transaction_Type","Payment_Type","Sales","Discount","Sales_Tax","Tips","Total","Fee","Net_Total","Payment_Method","Card_Brand","Card_Number","Payment_ID" FROM "transactions" WHERE "Sales" <> 0')
+        tCur.execute('SELECT "Date","Time","Transaction_Type","Payment_Type","Sales","Discount","Sales_Tax","Tips","Total","Fee","Net_Total","Payment_Method","Card_Brand","Card_Number","Payment_ID","Description" FROM "transactions" WHERE "Sales" <> 0')
         output_fh.write(self.TRANS_HEAD)
-        for date,time,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id in tCur:
+        for date,time,transaction_type,payment_type,subtotal,discount,sales_tax,tips,total,fee,net,square_payment_method,card_brand,card_number,payment_id,description in tCur:
             (year, month, day) = map(int,date.split('-', 2))
             
             if payment_type == 'Cash' or payment_type == 'Card':
@@ -174,11 +174,11 @@ class SquareReader(object):
 
             # Payment Method is only filled in for Card sales, so use it to detect card refunds
             if payment_type == 'Cash' or (isRefund and not square_payment_method):
-                cc_digits = 'Square Cash ' + ('REFUND' if isRefund else 'Sale')
+                cc_digits = 'Square Cash ' + ('REFUND: {0:s}'.format(description) if isRefund else 'Sale')
                 till_account=config.accounts.cash
                 payment_method=config.payments.cash
             elif payment_type == 'Card' or (isRefund and square_payment_method):
-                cc_digits = '{0:s}: {1:s} {2:s}{3:s}'.format(square_payment_method,card_brand,card_number.strip('="'),' (REFUND)' if isRefund else '')
+                cc_digits = '{0:s}: {1:s} {2:s}{3:s}'.format(square_payment_method,card_brand,card_number.strip('="'),' (REFUND: {0:s})'.format(description) if isRefund else '')
                 till_account=config.accounts.square
                 payment_method=config.payments.square
 
