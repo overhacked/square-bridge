@@ -163,7 +163,7 @@ class SquareReader(object):
                 output_fh.write(self.PART_TEMPLATE.format(item_name=item_qb_name,item_description=item_name,sales_account=sales_account,item_price=item_maxprice,taxable=item_taxable))
             
         # Transaction columns: Date,Time,Sale,Discount,Tip,Total Collected,Transaction Type,Cash,Gift Card,Wallet,Card - Swiped,Card - Keyed,Other,Total Collected,Fee,Net Total,Card Brand,Card Number,Details,Payment ID,Device Name,Description
-        tCur.execute('SELECT "Date","Time","Transaction_Type","Sale","Discount","Sales_Tax","Tip","Total_Collected","Fee","Net_Total","Card_Brand","Card_Number","Payment_ID","Description" FROM "transactions" WHERE "Sales" <> 0')
+        tCur.execute('SELECT "Date","Time","Transaction_Type","Sale","Discount","Sales_Tax","Tip","Total_Collected","Fee","Net_Total","Card_Brand","Card_Number","Payment_ID","Description" FROM "transactions" WHERE "Sale" <> 0')
         output_fh.write(self.TRANS_HEAD)
         for date,time,transaction_type,subtotal,discount,sales_tax,tips,total,fee,net,card_brand,card_number,payment_id,description in tCur:
             (year, month, day) = map(int,date.split('-', 2))
