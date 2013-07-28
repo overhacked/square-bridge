@@ -50,26 +50,6 @@ class SquareCSVReader(object):
 
 class SquareReader(object):
     """Interprets squareup.com CSV export files"""
-    # This is the IIF template
-    TRANS_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tPONUM\tMEMO\tTOPRINT\tPAYMETH\tSHIPVIA\tNAMEISTAXABLE\r\n"\
-                    + "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tQNTY\tPRICE\tINVITEM\tTAXABLE\r\n"\
-                    + "!ENDTRNS\r\n"
-    TRANS_TYPE_SALE = "CASH SALE"
-    TRANS_TYPE_REFUND = "CASH REFUND"
-    TRANS_TEMPLATE =  "TRNS\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\t{shipvia:s}\tN\r\n"
-    PART_HEAD =     "!INVITEM\tNAME\tINVITEMTYPE\tDESC\tACCNT\tPRICE\tTAXABLE\r\n"
-    PART_TEMPLATE = "INVITEM\t{item_name}\tPART\t{item_description}\t{sales_account}\t{item_price:.2f}\t{taxable}\r\n"
-    ITEM_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t{qty:.2f}\t{price:.2f}\t{item_name:s}\tN\r\n"
-    TAX_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t{vendor_name}\t{qb_class}\t{total:.2f}\t\t{rate:.2f}%\t{item_name:s}\tN\r\n"
-    TIPS_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t{item_name:s}\tN\r\n"
-    DISC_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t{item_name:s}\tN\r\n"
-    TRANS_FOOTER = "ENDTRNS\r\n"
-    FEE_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\tTOPRINT\r\n"\
-                +   "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\r\n"\
-                +   "!ENDTRNS\r\n"
-    FEE_TEMPLATE =      "TRNS\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{square_account}\t{square_vendor}\t{qb_class}\t{amount_neg}\t{square_id:s}\tN\tN\r\n"\
-                    +   "SPL\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{fees_account}\t\t{qb_class}\t{amount}\t\tN\r\n"\
-                    +   "ENDTRNS\r\n"
     # This maps Squareup.com CSV fields to SQLite types
     ITEM_TYPES = {'Price':'REAL','Discount':'REAL','Tax':'REAL',}
     TRANS_TYPES = {'Sale':'REAL','Discount':'REAL','Sales Tax':'REAL','Tip':'REAL','Total Collected':'REAL','Fee':'REAL','Net Total':'REAL',}
@@ -131,9 +111,49 @@ class SquareReader(object):
         cur.executemany(itemsInsertSql, self.itemsReader)
         self.db.commit()
 
+    def dumpSqliteMaster(self):
+        cur = self.db.cursor()
+        cur.execute('SELECT * FROM sqlite_master;')
+        print repr(cur.fetchall())
+
+    def dumpSql(self):
+        for line in self.db.iterdump():
+            print line
+
+    def dumpCsv(self):
+        try:
+            for row in self.transactionsReader:
+                print row
+        except csv.Error, e:
+            sys.exit('file %s, line %d: %s' % (self.transactionsFile.name, self.transactionsReader.line_num, e))
+
+class IifWriter(object):
+    # This is the IIF template
+    TRANS_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tPONUM\tMEMO\tTOPRINT\tPAYMETH\tSHIPVIA\tNAMEISTAXABLE\r\n"\
+                    + "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tQNTY\tPRICE\tINVITEM\tTAXABLE\r\n"\
+                    + "!ENDTRNS\r\n"
+    TRANS_TYPE_SALE = "CASH SALE"
+    TRANS_TYPE_REFUND = "CASH REFUND"
+    TRANS_TEMPLATE =  "TRNS\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{till_account}\t{customer}\t{qb_class}\t{total:.2f}\t{square_id:s}\t{square_id:s}\t{memo:s}\tN\t{payment_method:s}\t{shipvia:s}\tN\r\n"
+    PART_HEAD =     "!INVITEM\tNAME\tINVITEMTYPE\tDESC\tACCNT\tPRICE\tTAXABLE\r\n"
+    PART_TEMPLATE = "INVITEM\t{item_name}\tPART\t{item_description}\t{sales_account}\t{item_price:.2f}\t{taxable}\r\n"
+    ITEM_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t{qty:.2f}\t{price:.2f}\t{item_name:s}\tN\r\n"
+    TAX_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t{vendor_name}\t{qb_class}\t{total:.2f}\t\t{rate:.2f}%\t{item_name:s}\tN\r\n"
+    TIPS_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t{item_name:s}\tN\r\n"
+    DISC_TEMPLATE = "SPL\t\t{qb_type:s}\t{month:02d}/{day:02d}/{year:d}\t{sales_account}\t\t{qb_class}\t{total:.2f}\t\t\t{item_name:s}\tN\r\n"
+    TRANS_FOOTER = "ENDTRNS\r\n"
+    FEE_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\tTOPRINT\r\n"\
+                +   "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tCLEAR\r\n"\
+                +   "!ENDTRNS\r\n"
+    FEE_TEMPLATE =      "TRNS\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{square_account}\t{square_vendor}\t{qb_class}\t{amount_neg}\t{square_id:s}\tN\tN\r\n"\
+                    +   "SPL\t\tCHECK\t{month:02d}/{day:02d}/{year:d}\t{fees_account}\t\t{qb_class}\t{amount}\t\tN\r\n"\
+                    +   "ENDTRNS\r\n"
+    def __init__(self,squareReader):
+        self.reader = squareReader
+
     def exportIif(self,output_fh):
-        tCur = self.db.cursor()
-        iCur = self.db.cursor()
+        tCur = self.reader.db.cursor()
+        iCur = self.reader.db.cursor()
 
         # If the user is using the [items] mapping support in the config file, generate
         # IIF !INVITEM lines so that items don't get repeatedly created for every !TRNS line
@@ -233,30 +253,13 @@ class SquareReader(object):
             
             
 
-        fCur = self.db.cursor()
+        fCur = self.reader.db.cursor()
         output_fh.write(self.FEE_HEAD)
         fCur.execute('SELECT "Date","Fee","Payment_ID" FROM "transactions" WHERE "Fee" <> 0')
         for date, fee, payment_id in fCur:
             (year, month, day) = map(int,date.split('-', 2))
             output_fh.write(self.FEE_TEMPLATE.format(month=month, day=day, year=year, square_account=config.accounts.square, square_vendor=config.names.square, qb_class=config.classes.fees, amount=fee, amount_neg=-fee, square_id=payment_id, fees_account=config.accounts.fees))
         #TODO: implement deposits, if deposits.csv provided
-
-        
-    def dumpSqliteMaster(self):
-        cur = self.db.cursor()
-        cur.execute('SELECT * FROM sqlite_master;')
-        print repr(cur.fetchall())
-
-    def dumpSql(self):
-        for line in self.db.iterdump():
-            print line
-
-    def dumpCsv(self):
-        try:
-            for row in self.transactionsReader:
-                print row
-        except csv.Error, e:
-            sys.exit('file %s, line %d: %s' % (self.transactionsFile.name, self.transactionsReader.line_num, e))
 
 def main():
     #TODO: implement files as command line arguments
@@ -268,7 +271,8 @@ def main():
 
     square.importTransactions(transactions_file)
     square.importItems(items_file)
-    square.exportIif(output_file)
+    writer = IifWriter(square)
+    writer.exportIif(output_file)
         
 if __name__ == '__main__':
     main()
