@@ -1,2 +1,4 @@
 output.iif
 *.csv
+*.pyc
+.DS_Store
