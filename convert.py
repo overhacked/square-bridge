@@ -3,7 +3,7 @@
 
 import os
 import sys, traceback, re
-import csv
+import csv, codecs, cStringIO
 import sqlite3
 import config
 
@@ -12,11 +12,25 @@ PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 class UnknownCSVTypeWarning(Warning):
     pass
 
+class UTF8Recoder(object):
+    """
+    Iterator that reads an encoded stream and reencodes to input to UTF-8
+    """
+    def __init__(self, f, encoding):
+        self.reader = codecs.getreader(encoding)(f)
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        return self.reader.next().encode("utf-8")
+
 class SquareCSVReader(object):
     """Interprets squareup.com CSV export files"""
 
-    def __init__(self, csvfile):
-        self.reader = csv.reader(csvfile, dialect='excel')        
+    def __init__(self, csvfile, encoding="utf-8"):
+        f = UTF8Recoder(csvfile, encoding)
+        self.reader = csv.reader(f, dialect='excel')        
         self.fieldnames = self.reader.next()
         # Kludge to fix duplicate 'Total Collected' field from squareup.com
         try:
@@ -39,10 +53,10 @@ class SquareCSVReader(object):
 
             if len(v) > 0 and v[0] == '$':
                 newValue = float(v[1:])
+            elif self.floatRe.match(v):
+                newValue = float(self.floatRe.match(v).group(0))
             else:
-                floatMatch = self.floatRe.match(v)
-                if floatMatch:
-                    newValue = float(floatMatch.group(0))
+                newValue = unicode(v, "utf-8")
             
             newRow.append(newValue)
 
@@ -98,15 +112,15 @@ class SquareReader(object):
             if field in self.ITEM_TYPES:
                 fieldType = self.ITEM_TYPES[field]
             else:
-                fieldType = 'TEXT'
-            fieldSql = '"%s" %s' % (field.replace(' ','_'), fieldType)
+                fieldType = u'TEXT'
+            fieldSql = u'"%s" %s' % (field.replace(u' ',u'_'), fieldType)
             itemFieldsSql.append(fieldSql)
 
-        createItemsSql = 'CREATE TABLE items ( %s )' % ','.join(itemFieldsSql)
+        createItemsSql = u'CREATE TABLE items ( %s )' % u','.join(itemFieldsSql)
         self.db.execute(createItemsSql)
         self.db.commit()
 
-        itemsInsertSql = 'INSERT INTO items VALUES (%s);' % ( ('?, ' * len(self.itemsReader.fieldnames)).rstrip(', ') )
+        itemsInsertSql = u'INSERT INTO items VALUES (%s);' % ( (u'?, ' * len(self.itemsReader.fieldnames)).rstrip(u', ') )
         cur = self.db.cursor()
         cur.executemany(itemsInsertSql, self.itemsReader)
         self.db.commit()
