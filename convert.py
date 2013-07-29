@@ -205,7 +205,7 @@ class TransactionWriter(object):
                 try:
                     items_fh.write(self.PART_TEMPLATE.format(item_name=item_export_name,item_description=item_name,sales_account=sales_account,item_price=item_maxprice,taxable=item_taxable))
                 except KeyError as error:
-                    raise NotImplementedError("Unknown token in PART_TEMPLATE: " + error)
+                    raise NotImplementedError("Unknown token in PART_TEMPLATE: " + str(error))
 
 
         # Transaction columns: Date,Time,Sale,Discount,Tip,Total Collected,Transaction Type,Cash,Gift Card,Wallet,Card - Swiped,Card - Keyed,Other,Total Collected,Fee,Net Total,Card Brand,Card Number,Details,Payment ID,Device Name,Description
@@ -248,7 +248,7 @@ class TransactionWriter(object):
             try:
                 cur_fh.write(self.TRANS_TEMPLATE.format(qb_type=export_type, month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=config.classes.default, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method, shipvia=config.payments.shipvia))
             except KeyError as error:
-                raise NotImplementedError("Unknown token in TRANS_TEMPLATE: " + error)
+                raise NotImplementedError("Unknown token in TRANS_TEMPLATE: " + str(error))
 
             # Item columns: Date,Time,Details,Payment ID,Device Name,Category Name,Item Name,Price,Discount,Notes
             iCur.execute('SELECT "Category_Name","Item_Name",CASE WHEN "Price" BETWEEN -1.0 AND 1.0 THEN COUNT(*)/100.0 ELSE COUNT(*) END AS \'Quantity\',CASE WHEN "Price" BETWEEN -1.0 AND 1.0 THEN "Price"*100 ELSE "Price" END AS \'Item_Price\',SUM("Discount") AS \'Discount\',SUM("Tax") AS \'Tax\' FROM "items" WHERE "Payment_ID" = ? AND "Date" = ? AND "Time" = ? GROUP BY "Category_Name","Item_Name","Price";',(payment_id,date,time,))
@@ -288,7 +288,7 @@ class TransactionWriter(object):
             try:
                 credit_fh.write(self.FEE_TEMPLATE.format(month=month, day=day, year=year, square_account=config.accounts.square, square_vendor=config.names.square, qb_class=config.classes.fees, amount=fee, amount_neg=-fee, square_id=payment_id, fees_account=config.accounts.fees))
             except KeyError as error:
-                raise NotImplementedError("Unknown token in FEE_TEMPLATE: " + error)
+                raise NotImplementedError("Unknown token in FEE_TEMPLATE: " + str(error))
 
 class XeroCsvWriter(TransactionWriter):
     __AR_FILE_HEAD =  "ContactName,InvoiceNumber,Reference,InvoiceDate,DueDate,Total,InventoryItemCode,Description,Quantity,UnitAmount,Discount,AccountCode,TaxType,TaxAmount,TrackingName1,TrackingOption1\r\n"
