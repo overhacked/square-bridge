@@ -311,7 +311,7 @@ class XeroCsvWriter(TransactionWriter):
     FILE_HEADS =        {'invoice': __AR_FILE_HEAD, 'credit': __BANK_FILE_HEAD, 'cash': __BANK_FILE_HEAD, 'items': __ITEM_FILE_HEAD}
     TRANS_HEAD =        ""
     TRANS_TEMPLATE =    "{month:02d}/{day:02d}/{year:d},{total:.2f},{customer},{memo:s},SQ-{square_id:s},,\r\n"
-    ITEM_TEMPLATE =     "{customer},SQ-{square_id:s},{square_id:s},{month:02d}/{day:02d}/{year:d},{month:02d}/{day:02d}/{year:d},{total:.2f},{item_code:s},{item_name:s},{qty:.2f},{price:.2f},{discount:.2f},{sales_account:s},{tax_type:s},,Enterprise,{qb_class}\r\n"
+    ITEM_TEMPLATE =     "{customer},SQ-{square_id:s},{square_id:s},{month:02d}/{day:02d}/{year:d},{month:02d}/{day:02d}/{year:d},{total:.2f},{item_code:s},{item_name:s},{qty:.2f},{price:.2f},{discount:.2f},{sales_account:s},{tax_type:s},0.00,Enterprise,{qb_class}\r\n"
     TRANS_FOOTER =      ""
     FEE_HEAD =          ""
     FEE_TEMPLATE =      "{month:02d}/{day:02d}/{year:d},{amount_neg:.2f},{square_vendor},Square Fee for transaction {square_id:s},{square_id:s},{fees_account},Tax on Purchases\r\n"
