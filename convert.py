@@ -129,7 +129,8 @@ class SquareReader(object):
 
 class TransactionWriter(object):
     # Placeholder values to alert us of a failure to override in subclasses
-    FILE_HEAD =         "// BEGIN FILE\r\n"
+    __FILE_HEAD =       "// BEGIN FILE\r\n"
+    FILE_HEADS =        {'invoice': __FILE_HEAD, 'credit': __FILE_HEAD, 'cash': __FILE_HEAD, 'items': __FILE_HEAD}
     TRANS_HEAD =        "// BEGIN TRANSACTIONS\r\n"
     TRANS_TEMPLATE =    "// TRANSACTION LINE\r\n"
     ITEM_TEMPLATE =     "// ITEM LINE\r\n"
@@ -155,12 +156,23 @@ class TransactionWriter(object):
         pass
 
     def write(self,invoice_fh,credit_fh=None,cash_fh=None,items_fh=None):
+        if 'invoice' in self.FILE_HEADS:
+            invoice_fh.write(self.FILE_HEADS['invoice'])
+
         if credit_fh is None:
             credit_fh = invoice_fh
+        elif 'credit' in self.FILE_HEADS:
+            invoice_fh.write(self.FILE_HEADS['credit'])
+
         if cash_fh is None:
             cash_fh = credit_fh
+        elif 'cash' in self.FILE_HEADS:
+            invoice_fh.write(self.FILE_HEADS['cash'])
+
         if items_fh is None:
             items_fh = invoice_fh
+        elif 'items' in self.FILE_HEADS:
+            invoice_fh.write(self.FILE_HEADS['items'])
 
         tCur = self.reader.db.cursor()
         iCur = self.reader.db.cursor()
@@ -280,7 +292,7 @@ class TransactionWriter(object):
 
 class IifWriter(TransactionWriter):
     # This is the IIF template
-    FILE_HEAD = ""
+    FILE_HEADS =    {}
     TRANS_HEAD =      "!TRNS\tTRNSID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tDOCNUM\tPONUM\tMEMO\tTOPRINT\tPAYMETH\tSHIPVIA\tNAMEISTAXABLE\r\n"\
                     + "!SPL\tSPLID\tTRNSTYPE\tDATE\tACCNT\tNAME\tCLASS\tAMOUNT\tQNTY\tPRICE\tINVITEM\tTAXABLE\r\n"\
                     + "!ENDTRNS\r\n"
