@@ -329,7 +329,7 @@ class XeroCsvWriter(TransactionWriter):
         taxType = "Tax on Purchases"
 
         if p['item_discount']< 0 or (p['isRefund'] and p['item_discount'] > 0):
-            item_discount = p['item_discount'] / (p['item_price'] * p['item_quantity'])
+            item_discount = -100.0 * p['item_discount'] / (p['item_price'] * p['item_quantity'])
         else:
             item_discount = 0.0
 
