@@ -162,17 +162,17 @@ class TransactionWriter(object):
         if credit_fh is None:
             credit_fh = invoice_fh
         elif 'credit' in self.FILE_HEADS:
-            invoice_fh.write(self.FILE_HEADS['credit'])
+            credit_fh.write(self.FILE_HEADS['credit'])
 
         if cash_fh is None:
             cash_fh = credit_fh
         elif 'cash' in self.FILE_HEADS:
-            invoice_fh.write(self.FILE_HEADS['cash'])
+            cash_fh.write(self.FILE_HEADS['cash'])
 
         if items_fh is None:
             items_fh = invoice_fh
         elif 'items' in self.FILE_HEADS:
-            invoice_fh.write(self.FILE_HEADS['items'])
+            items_fh.write(self.FILE_HEADS['items'])
 
         tCur = self.reader.db.cursor()
         iCur = self.reader.db.cursor()
