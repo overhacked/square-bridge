@@ -265,6 +265,7 @@ class TransactionWriter(object):
 
                 # Rewrite item name if specified in config
                 if item_name in config.itemsMap:
+                    item_name_orig = item_name
                     item_name = config.itemsMap[item_name]
 
                 # Fix for missing items.Tax column
@@ -288,6 +289,37 @@ class TransactionWriter(object):
                 credit_fh.write(self.FEE_TEMPLATE.format(month=month, day=day, year=year, square_account=config.accounts.square, square_vendor=config.names.square, qb_class=config.classes.fees, amount=fee, amount_neg=-fee, square_id=payment_id, fees_account=config.accounts.fees))
             except KeyError as error:
                 raise NotImplementedError("Unknown token in FEE_TEMPLATE: " + error)
+
+class XeroCsvWriter(TransactionWriter):
+    __AR_FILE_HEAD =  "ContactName,InvoiceNumber,Reference,InvoiceDate,DueDate,Total,InventoryItemCode,Description,Quantity,UnitAmount,Discount,AccountCode,TaxType,TaxAmount,TrackingName1,TrackingOption1\r\n"
+    __BANK_FILE_HEAD =  "Date,Amount,Payee,Description,Reference,AccountCode,TaxType\r\n"
+    __ITEM_FILE_HEAD =  "Code,Description,PurchasesUnitPrice,PurchasesAccount,PurchasesTaxRate,SalesUnitPrice,SalesAccount,SalesTaxRate\r\n"
+    FILE_HEADS =        {'invoice': __AR_FILE_HEAD, 'credit': __BANK_FILE_HEAD, 'cash': __BANK_FILE_HEAD, 'items': __ITEM_FILE_HEAD}
+    TRANS_HEAD =        ""
+    TRANS_TEMPLATE =    "{month:02d}/{day:02d}/{year:d},{total:.2f},{customer},{memo:s},SQ-{square_id:s},,\r\n"
+    ITEM_TEMPLATE =     "{customer},SQ-{square_id:s},{square_id:s},{month:02d}/{day:02d}/{year:d},{month:02d}/{day:02d}/{year:d},{total:.2f},{item_code:s},{item_name:s},{qty:.2f},{price:.2f},{discount:.2f},{sales_account:s},{tax_type:s},,Enterprise,{qb_class}\r\n"
+    TRANS_FOOTER =      ""
+    FEE_HEAD =          ""
+    FEE_TEMPLATE =      "{month:02d}/{day:02d}/{year:d},{total:.2f},{square_vendor},{memo:s},{square_id:s},{fees_account},Tax on Purchases\r\n"
+    PART_HEAD =         ""
+    PART_TEMPLATE =     "{item_code:s},{item_name},0.00,{purchases_account},Tax on Purchases,{item_price:.2f},{sales_account},{tax_type:s}\r\n"
+
+    TRANS_TYPE_SALE = "Sale"
+    TRANS_TYPE_REFUND = "Refund"
+
+    def writeItemLine(self,output_fh,p):
+        # All items get written to a separate file as Sales Invoices
+        output_fh = p['invoice_fh']
+        refundMultiplier = -1.0 if p['isRefund'] else 1.0
+        # TODO: tax type support
+        taxType = "Tax on Purchases"
+
+        if p['item_discount']< 0 or (p['isRefund'] and p['item_discount'] > 0):
+            item_discount = p['item_discount'] / (p['item_price'] * p['item_quantity'])
+        else:
+            item_discount = 0.0
+
+        output_fh.write(self.ITEM_TEMPLATE.format(customer=config.names.customer, square_id=p['payment_id'],month=p['month'], day=p['day'], year=p['year'], total=refundMultiplier*p['item_price']*p['item_quantity'], item_code=p['item_name'], item_name=p['item_name_orig'], qty=p['item_quantity'], price=refundMultiplier*p['item_price'], discount=item_discount, sales_account=p['sales_account'], tax_type=taxType, qb_class=p['item_class']))
 
 
 class IifWriter(TransactionWriter):
@@ -330,14 +362,17 @@ def main():
     #TODO: implement files as command line arguments
     transactions_file = open(os.path.join(PROJECT_ROOT, config.cmdline.transactions), 'r')
     items_file = open(os.path.join(PROJECT_ROOT, config.cmdline.items), 'r')
-    output_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output), 'w')
+    invoice_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output + "-invoices.csv"), 'w')
+    credit_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output + "-credit.csv"), 'w')
+    cash_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output + "-cash.csv"), 'w')
+    items_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output + "-items.csv"), 'w')
     
     square = SquareReader()
 
     square.importTransactions(transactions_file)
     square.importItems(items_file)
-    writer = IifWriter(square)
-    writer.write(output_file)
+    writer = XeroCsvWriter(square)
+    writer.write(invoice_file,credit_file,cash_file,items_file)
         
 if __name__ == '__main__':
     main()
