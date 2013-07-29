@@ -300,9 +300,9 @@ class XeroCsvWriter(TransactionWriter):
     ITEM_TEMPLATE =     "{customer},SQ-{square_id:s},{square_id:s},{month:02d}/{day:02d}/{year:d},{month:02d}/{day:02d}/{year:d},{total:.2f},{item_code:s},{item_name:s},{qty:.2f},{price:.2f},{discount:.2f},{sales_account:s},{tax_type:s},,Enterprise,{qb_class}\r\n"
     TRANS_FOOTER =      ""
     FEE_HEAD =          ""
-    FEE_TEMPLATE =      "{month:02d}/{day:02d}/{year:d},{total:.2f},{square_vendor},{memo:s},{square_id:s},{fees_account},Tax on Purchases\r\n"
+    FEE_TEMPLATE =      "{month:02d}/{day:02d}/{year:d},{amount_neg:.2f},{square_vendor},Square Fee for transaction {square_id:s},{square_id:s},{fees_account},Tax on Purchases\r\n"
     PART_HEAD =         ""
-    PART_TEMPLATE =     "{item_code:s},{item_name},0.00,{purchases_account},Tax on Purchases,{item_price:.2f},{sales_account},{tax_type:s}\r\n"
+    PART_TEMPLATE =     "{item_name:s},{item_description},0.00,51000,Tax on Purchases,{item_price:.2f},{sales_account},Tax on Sales\r\n"
 
     TRANS_TYPE_SALE = "Sale"
     TRANS_TYPE_REFUND = "Refund"
@@ -319,7 +319,7 @@ class XeroCsvWriter(TransactionWriter):
         else:
             item_discount = 0.0
 
-        output_fh.write(self.ITEM_TEMPLATE.format(customer=config.names.customer, square_id=p['payment_id'],month=p['month'], day=p['day'], year=p['year'], total=refundMultiplier*p['item_price']*p['item_quantity'], item_code=p['item_name'], item_name=p['item_name_orig'], qty=p['item_quantity'], price=refundMultiplier*p['item_price'], discount=item_discount, sales_account=p['sales_account'], tax_type=taxType, qb_class=p['item_class']))
+        output_fh.write(self.ITEM_TEMPLATE.format(customer=config.names.customer, square_id=p['payment_id'],month=p['month'], day=p['day'], year=p['year'], total=refundMultiplier*p['total'], item_code=p['item_name'], item_name=p['item_name_orig'], qty=p['item_quantity'], price=refundMultiplier*p['item_price'], discount=item_discount, sales_account=p['sales_account'], tax_type=taxType, qb_class=p['item_class']))
 
 
 class IifWriter(TransactionWriter):
