@@ -365,14 +365,14 @@ def main():
     invoice_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output + "-invoices.csv"), 'w')
     credit_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output + "-credit.csv"), 'w')
     cash_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output + "-cash.csv"), 'w')
-    items_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output + "-items.csv"), 'w')
+    inventory_file = open(os.path.join(PROJECT_ROOT, config.cmdline.output + "-items.csv"), 'w')
     
     square = SquareReader()
 
     square.importTransactions(transactions_file)
     square.importItems(items_file)
     writer = XeroCsvWriter(square)
-    writer.write(invoice_file,credit_file,cash_file,items_file)
+    writer.write(invoice_file,credit_file,cash_file,inventory_file)
         
 if __name__ == '__main__':
     main()
