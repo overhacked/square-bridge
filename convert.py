@@ -327,7 +327,7 @@ class XeroCsvWriter(TransactionWriter):
         output_fh = p['invoice_fh']
         refundMultiplier = -1.0 if p['isRefund'] else 1.0
         # TODO: tax type support
-        taxType = "Tax on Purchases"
+        taxType = "Tax on Sales"
 
         if p['item_discount']< 0 or (p['isRefund'] and p['item_discount'] > 0):
             item_discount = -100.0 * p['item_discount'] / (p['item_price'] * p['item_quantity'])
