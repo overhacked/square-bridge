@@ -40,7 +40,8 @@ class SquareCSVReader(object):
             # Nothing to replace
             pass
 
-        self.floatRe = re.compile('[-+]?[0-9]+\.[0-9]+')
+        # leading .? could be any currency sign
+        self.floatRe = re.compile('^.?([-+]?[0-9,]+\.[0-9]+)$')
         
     def __iter__(self):
         return self
@@ -51,10 +52,10 @@ class SquareCSVReader(object):
         for v in row:
             newValue = v
 
-            if len(v) > 0 and v[0] == '$':
-                newValue = float(v[1:])
-            elif self.floatRe.match(v):
-                newValue = float(self.floatRe.match(v).group(0))
+            #if len(v) > 0 and v[0] == '$':
+            #    newValue = float(v[1:].replace(',',''))
+            if self.floatRe.match(v):
+                newValue = float(self.floatRe.match(v).group(1).replace(',',''))
             else:
                 newValue = unicode(v, "utf-8")
             
