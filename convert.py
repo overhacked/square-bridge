@@ -2,7 +2,7 @@
 # Script to convert CSV to IIF output.
 
 import os
-import sys, traceback, re
+import sys, traceback, string, re
 import csv, codecs, cStringIO
 import sqlite3
 import config
@@ -11,6 +11,21 @@ PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
 
 class UnknownCSVTypeWarning(Warning):
     pass
+
+class CSVFormatter(string.Formatter):
+    """
+    Formatter that has a 'q' conversion to provide quoting to CSV strings
+    """
+    def format_field(self, value, format_spec):
+
+        newString = super(CSVFormatter,self).format_field(value,format_spec)
+
+        if format_spec == '' or format_spec[-1] == 's':
+            if newString.find(',') != -1:
+                # quote any commo-containing string and escape existing quotes
+                newString = '"' + newString.replace('"','""') + '"'
+
+        return newString
 
 class UTF8Recoder(object):
     """
@@ -143,6 +158,8 @@ class SquareReader(object):
             sys.exit('file %s, line %d: %s' % (self.transactionsFile.name, self.transactionsReader.line_num, e))
 
 class TransactionWriter(object):
+    stringFormatter = string.Formatter
+
     # Placeholder values to alert us of a failure to override in subclasses
     __FILE_HEAD =       "// BEGIN FILE\r\n"
     FILE_HEADS =        {'invoice': __FILE_HEAD, 'credit': __FILE_HEAD, 'cash': __FILE_HEAD, 'items': __FILE_HEAD}
@@ -160,6 +177,7 @@ class TransactionWriter(object):
 
     def __init__(self,squareReader):
         self.reader = squareReader
+        self.stringFormatter = self.stringFormatter()
 
     def writeItemLine(self,output_fh,p):
         # p to be defined by the caller as locals()
@@ -218,7 +236,7 @@ class TransactionWriter(object):
                     item_taxable = 'N'
 
                 try:
-                    items_fh.write(self.PART_TEMPLATE.format(item_name=item_export_name,item_description=item_name,sales_account=sales_account,item_price=item_maxprice,taxable=item_taxable))
+                    items_fh.write(self.stringFormatter.format(self.PART_TEMPLATE,item_name=item_export_name,item_description=item_name,sales_account=sales_account,item_price=item_maxprice,taxable=item_taxable))
                 except KeyError as error:
                     raise NotImplementedError("Unknown token in PART_TEMPLATE: " + str(error))
 
@@ -261,7 +279,7 @@ class TransactionWriter(object):
                 sales_tax = 0
             
             try:
-                cur_fh.write(self.TRANS_TEMPLATE.format(qb_type=export_type, month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=config.classes.default, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method, shipvia=config.payments.shipvia))
+                cur_fh.write(self.stringFormatter.format(self.TRANS_TEMPLATE,qb_type=export_type, month=month, day=day, year=year, till_account=till_account, customer=config.names.customer, qb_class=config.classes.default, total=total, square_id=payment_id, memo=cc_digits, payment_method=payment_method, shipvia=config.payments.shipvia))
             except KeyError as error:
                 raise NotImplementedError("Unknown token in TRANS_TEMPLATE: " + str(error))
 
@@ -301,11 +319,13 @@ class TransactionWriter(object):
         for date, fee, payment_id in fCur:
             (year, month, day) = map(int,date.split('-', 2))
             try:
-                credit_fh.write(self.FEE_TEMPLATE.format(month=month, day=day, year=year, square_account=config.accounts.square, square_vendor=config.names.square, qb_class=config.classes.fees, amount=fee, amount_neg=-fee, square_id=payment_id, fees_account=config.accounts.fees))
+                credit_fh.write(self.stringFormatter.format(self.FEE_TEMPLATE,month=month, day=day, year=year, square_account=config.accounts.square, square_vendor=config.names.square, qb_class=config.classes.fees, amount=fee, amount_neg=-fee, square_id=payment_id, fees_account=config.accounts.fees))
             except KeyError as error:
                 raise NotImplementedError("Unknown token in FEE_TEMPLATE: " + str(error))
 
 class XeroCsvWriter(TransactionWriter):
+    stringFormatter = CSVFormatter
+
     __AR_FILE_HEAD =  "ContactName,InvoiceNumber,Reference,InvoiceDate,DueDate,Total,InventoryItemCode,Description,Quantity,UnitAmount,Discount,AccountCode,TaxType,TaxAmount,TrackingName1,TrackingOption1\r\n"
     __BANK_FILE_HEAD =  "Date,Amount,Payee,Description,Reference,AccountCode,TaxType\r\n"
     __ITEM_FILE_HEAD =  "Code,Description,PurchasesUnitPrice,PurchasesAccount,PurchasesTaxRate,SalesUnitPrice,SalesAccount,SalesTaxRate\r\n"
@@ -334,7 +354,7 @@ class XeroCsvWriter(TransactionWriter):
         else:
             item_discount = 0.0
 
-        output_fh.write(self.ITEM_TEMPLATE.format(customer=config.names.customer, square_id=p['payment_id'],month=p['month'], day=p['day'], year=p['year'], total=refundMultiplier*p['total'], item_code=p['item_name'], item_name=p['item_name_orig'], qty=p['item_quantity'], price=refundMultiplier*p['item_price'], discount=item_discount, sales_account=p['sales_account'], tax_type=taxType, qb_class=p['item_class']))
+        output_fh.write(self.stringFormatter.format(self.ITEM_TEMPLATE,customer=config.names.customer, square_id=p['payment_id'],month=p['month'], day=p['day'], year=p['year'], total=refundMultiplier*p['total'], line_total=refundMultiplier*((p['item_quantity']*p['item_price'])+p['item_discount']), item_code=p['item_name'], item_name=p['item_name_orig'], qty=p['item_quantity'], price=refundMultiplier*p['item_price'], discount=item_discount, sales_account=p['sales_account'], tax_type=taxType, qb_class=p['item_class']))
 
 
 class IifWriter(TransactionWriter):
@@ -361,17 +381,17 @@ class IifWriter(TransactionWriter):
                     +   "ENDTRNS\r\n"
 
     def writeItemLine(self,output_fh,p):
-        output_fh.write(self.ITEM_TEMPLATE.format(qb_type=p['export_type'], month=p['month'], day=p['day'], year=p['year'], sales_account=p['sales_account'], qb_class=p['item_class'], total=-p['item_price']*p['item_quantity'], qty=-p['item_quantity'], price=p['item_price'], item_name=p['item_name']))
+        output_fh.write(self.stringFormatter.format(self.ITEM_TEMPLATE,qb_type=p['export_type'], month=p['month'], day=p['day'], year=p['year'], sales_account=p['sales_account'], qb_class=p['item_class'], total=-p['item_price']*p['item_quantity'], qty=-p['item_quantity'], price=p['item_price'], item_name=p['item_name']))
         # Output one discount line per item, if any discount specified
         if p['item_discount']< 0 or (p['isRefund'] and p['item_discount'] > 0):
-            output_fh.write(self.DISC_TEMPLATE.format(qb_type=p['export_type'], month=p['month'], day=p['day'], year=p['year'], sales_account=config.discounts.account, qb_class=p['item_class'], total=-p['item_discount'], price=-p['item_discount'], item_name=config.discounts.item))
+            output_fh.write(self.stringFormatter.format(self.DISC_TEMPLATE,qb_type=p['export_type'], month=p['month'], day=p['day'], year=p['year'], sales_account=config.discounts.account, qb_class=p['item_class'], total=-p['item_discount'], price=-p['item_discount'], item_name=config.discounts.item))
 
     def writeExtraLineItems(self,output_fh,p):
         if p['sales_tax'] > 0 or (p['isRefund'] and p['sales_tax'] < 0):
-            output_fh.write(self.TAX_TEMPLATE.format(qb_type=p['export_type'], month=p['month'], day=p['day'], year=p['year'], sales_account=config.accounts.tax, qb_class=config.classes.default, total=-p['sales_tax'], rate=abs(p['sales_tax']/p['total']*100.0), item_name=config.names.tax_item, vendor_name=config.names.tax_vendor))
+            output_fh.write(self.stringFormatter.format(self.TAX_TEMPLATE,qb_type=p['export_type'], month=p['month'], day=p['day'], year=p['year'], sales_account=config.accounts.tax, qb_class=config.classes.default, total=-p['sales_tax'], rate=abs(p['sales_tax']/p['total']*100.0), item_name=config.names.tax_item, vendor_name=config.names.tax_vendor))
 
         if p['tips'] > 0 or (p['isRefund'] and p['tips'] < 0):
-            output_fh.write(self.TIPS_TEMPLATE.format(qb_type=p['export_type'], month=p['month'], day=p['day'], year=p['year'], sales_account=config.accounts.tips, qb_class=config.classes.default, total=-p['tips'], item_name=config.names.tips_item))
+            output_fh.write(self.stringFormatter.format(self.TIPS_TEMPLATE,qb_type=p['export_type'], month=p['month'], day=p['day'], year=p['year'], sales_account=config.accounts.tips, qb_class=config.classes.default, total=-p['tips'], item_name=config.names.tips_item))
 
 def main():
     #TODO: implement files as command line arguments
