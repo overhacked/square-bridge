@@ -279,8 +279,8 @@ class TransactionWriter(object):
                     item_class = config.classes.default
 
                 # Rewrite item name if specified in config
+                item_name_orig = item_name
                 if item_name in config.itemsMap:
-                    item_name_orig = item_name
                     item_name = config.itemsMap[item_name]
 
                 # Fix for missing items.Tax column
